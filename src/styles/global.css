@@ -2160,6 +2160,10 @@ svg {
     --page-pad: 32px;
   }
 
+  .nav__center-mark {
+    display: none;
+  }
+
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -2171,7 +2175,10 @@ svg {
   }
 
   .hero-card {
+    width: min(100%, 620px);
     max-width: 620px;
+    justify-self: center;
+    margin-inline: auto;
   }
 
   .product-grid,
