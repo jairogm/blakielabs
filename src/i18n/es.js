@@ -329,7 +329,7 @@ export default {
       cta: "Conoce más →"
     },
     teamTitle: "Conoce a la manada.",
-    teamSub: "[ QUIENES ESCRIBEN EL CÓDIGO ]",
+    teamSub: "[ LAS PERSONAS DETRÁS DEL LAB ]",
     team: [
       { initial: "J", name: "Jhon Garces Montes", role: "Fundador y CTO", image: "/team/jhon-garces-montes.webp", imageAlt: "Retrato de Jhon Garces Montes", accent: true },
       { initial: "L", name: "Lena Okafor", role: "Staff Full-Stack", image: "/team/lena-okafor.webp", imageAlt: "Retrato de Lena Okafor" },

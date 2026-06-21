@@ -329,7 +329,7 @@ export default {
       cta: "Learn more →"
     },
     teamTitle: "Meet the pack.",
-    teamSub: "[ THE PEOPLE WRITING THE CODE ]",
+    teamSub: "[ THE PEOPLE BEHIND THE LAB ]",
     team: [
       { initial: "J", name: "Jhon Garces Montes", role: "Founder & CTO", image: "/team/jhon-garces-montes.webp", imageAlt: "Portrait of Jhon Garces Montes", accent: true },
       { initial: "L", name: "Lena Okafor", role: "Staff Full-Stack", image: "/team/lena-okafor.webp", imageAlt: "Portrait of Lena Okafor" },
