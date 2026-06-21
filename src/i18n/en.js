@@ -418,14 +418,14 @@ export default {
         tagline: "Part-time senior firepower",
         price: "$8.5k",
         period: "/ month",
-        features: ["One senior engineer", "~20 hrs / week", "Async updates and weekly call", "Pause or cancel anytime"]
+        features: ["One senior engineer", "~40 hrs / week", "Async updates and weekly call", "Pause or cancel anytime"]
       },
       {
         name: "Pack",
         tagline: "Your core build team",
         price: "$18k",
         period: "/ month",
-        features: ["Two senior engineers", "Full-stack and infra", "Priority Slack and velocity calls", "Pause or scale monthly"],
+        features: ["Two senior engineers", "~80 hrs / week combined", "Full-stack and infra", "Pause or scale monthly"],
         popular: true
       },
       {

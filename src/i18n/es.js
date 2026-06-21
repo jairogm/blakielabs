@@ -418,14 +418,14 @@ export default {
         tagline: "Potencia senior a tiempo parcial",
         price: "$8.5k",
         period: "/ mes",
-        features: ["Un ingeniero senior", "~20 hrs / semana", "Updates asíncronos y llamada semanal", "Pausa o cancela cuando quieras"]
+        features: ["Un ingeniero senior", "~40 hrs / semana", "Updates asíncronos y llamada semanal", "Pausa o cancela cuando quieras"]
       },
       {
         name: "Pack",
         tagline: "Tu equipo de construcción central",
         price: "$18k",
         period: "/ mes",
-        features: ["Dos ingenieros senior", "Full-stack e infra", "Slack prioritario y llamadas de velocidad", "Pausa o escala mes a mes"],
+        features: ["Dos ingenieros senior", "~80 hrs / semana combinadas", "Full-stack e infra", "Pausa o escala mes a mes"],
         popular: true
       },
       {
