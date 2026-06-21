@@ -1,5 +1,6 @@
 ---
 import Brand from "./Brand.astro";
+import SocialLinks from "./SocialLinks.astro";
 import { getLang, useTranslations, localizePath } from "../i18n/ui.js";
 
 const lang = getLang(Astro);
@@ -10,14 +11,17 @@ const footerLine = t.footer.line.replace("{year}", year);
 
 <footer class="footer">
   <Brand href={localizePath(lang, "/")} small showMark={false} />
-  <span class="footer__meta">
-    <svg width="13" height="13" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-      <ellipse cx="16" cy="21" rx="7.5" ry="6.5"></ellipse>
-      <circle cx="7.5" cy="13.5" r="2.7"></circle>
-      <circle cx="13.5" cy="9" r="2.9"></circle>
-      <circle cx="20.5" cy="9" r="2.9"></circle>
-      <circle cx="24.5" cy="13.5" r="2.7"></circle>
-    </svg>
-    {footerLine}
-  </span>
+  <div class="footer__right">
+    <SocialLinks className="footer__socials" />
+    <span class="footer__meta">
+      <svg width="13" height="13" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+        <ellipse cx="16" cy="21" rx="7.5" ry="6.5"></ellipse>
+        <circle cx="7.5" cy="13.5" r="2.7"></circle>
+        <circle cx="13.5" cy="9" r="2.9"></circle>
+        <circle cx="20.5" cy="9" r="2.9"></circle>
+        <circle cx="24.5" cy="13.5" r="2.7"></circle>
+      </svg>
+      {footerLine}
+    </span>
+  </div>
 </footer>

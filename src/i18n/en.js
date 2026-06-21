@@ -51,6 +51,10 @@ export default {
     line: "© {year} - built with teeth."
   },
 
+  socials: {
+    aria: "Social links"
+  },
+
   newsletter: {
     title: "Follow the lab.",
     body: "New apps, build logs, and the occasional dog photo. No spam, ever.",
@@ -416,14 +420,14 @@ export default {
       {
         name: "Scout",
         tagline: "Part-time senior firepower",
-        price: "$8.5k",
+        price: "$5.5k",
         period: "/ month",
         features: ["One senior engineer", "~40 hrs / week", "Async updates and weekly call", "Pause or cancel anytime"]
       },
       {
         name: "Pack",
         tagline: "Your core build team",
-        price: "$18k",
+        price: "$9.5k",
         period: "/ month",
         features: ["Two senior engineers", "~80 hrs / week combined", "Full-stack and infra", "Pause or scale monthly"],
         popular: true

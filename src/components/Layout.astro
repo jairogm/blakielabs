@@ -6,7 +6,7 @@ import Nav from "./Nav.astro";
 import Newsletter from "./Newsletter.astro";
 import SiteScripts from "./SiteScripts.astro";
 import ProductGlyphs from "./ProductGlyphs.astro";
-import { getLang, useTranslations, getAlternateUrls } from "../i18n/ui.js";
+import { getLang, useTranslations, getAlternateUrls, socialLinks } from "../i18n/ui.js";
 
 const {
   active = "home",
@@ -43,7 +43,8 @@ const structuredData = {
       "@id": `${siteRoot.toString()}#organization`,
       name: "Blakie Labs",
       url: siteRoot.toString(),
-      logo: new URL("/android-chrome-512x512.png", siteRoot).toString()
+      logo: new URL("/android-chrome-512x512.png", siteRoot).toString(),
+      sameAs: socialLinks.map((link) => link.href)
     },
     {
       "@type": "WebSite",

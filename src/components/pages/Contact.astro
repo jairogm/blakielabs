@@ -1,5 +1,6 @@
 ---
 import Layout from "../Layout.astro";
+import SocialLinks from "../SocialLinks.astro";
 import { getLang, useTranslations } from "../../i18n/ui.js";
 
 const lang = getLang(Astro);
@@ -14,6 +15,7 @@ const f = contact.fields;
       <p class="section-kicker">{contact.kicker}</p>
       <h1 class="page-heading" id="contact-title">{contact.title}</h1>
       <p class="contact__intro">{contact.intro}</p>
+      <SocialLinks className="contact__socials" />
 
       <form class="form" novalidate data-contact-form>
         <fieldset class="form__choice">

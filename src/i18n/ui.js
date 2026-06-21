@@ -4,6 +4,10 @@ import es from "./es.js";
 
 export const languages = { en: "EN", es: "ES" };
 export const defaultLang = "en";
+export const socialLinks = [
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/blakie.labs/" },
+  { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/blakie-labs/" }
+];
 
 const dictionaries = { en, es };
 
