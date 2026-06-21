@@ -1,0 +1,73 @@
+---
+import Layout from "../Layout.astro";
+import { getLang, useTranslations, localizePath } from "../../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const plans = t.plans;
+---
+
+<Layout active="plans" title={t.meta.plans.title} description={t.meta.plans.description}>
+  <section class="section plans page-section" aria-labelledby="plans-title">
+    <p class="section-kicker">{plans.kicker}</p>
+    <div class="plans__intro">
+      <div>
+        <h1 class="page-heading" id="plans-title">{plans.title}</h1>
+        <p>{plans.intro}</p>
+      </div>
+      <span class="availability"><i></i>{plans.availability}</span>
+    </div>
+
+    <div class="plan-grid">
+      {plans.items.map((plan) => (
+        <article class={`plan-card ${plan.popular ? "plan-card--popular" : ""}`}>
+          {plan.popular && <span class="plan-card__badge">{plans.mostPopular}</span>}
+          <p>{plan.tagline}</p>
+          <h2>{plan.name}</h2>
+          <div class="plan-card__price">
+            <strong>{plan.price}</strong>
+            {plan.period && <span>{plan.period}</span>}
+          </div>
+          <ul class="check-list">
+            {plan.features.map((feature) => <li>{feature}</li>)}
+          </ul>
+          <a class={`button ${plan.popular ? "button--primary" : "button--ghost"}`} href={localizePath(lang, "/contact/?type=retainer")}>{plans.claimSlot}</a>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-heading">
+      <h2>{plans.howTitle}</h2>
+      <p>{plans.howSub}</p>
+    </div>
+    <div class="steps-grid">
+      {plans.howItWorks.map((step) => (
+        <article class="step-card">
+          <span>{step.num}</span>
+          <h2>{step.title}</h2>
+          <p>{step.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-heading section-heading--spaced">
+      <h2>{plans.faqTitle}</h2>
+      <p>{plans.faqSub}</p>
+    </div>
+    <div class="faq">
+      {plans.faqs.map((item, index) => (
+        <article class="faq__item" data-faq-item>
+          <h3>
+            <button class="faq__question" type="button" aria-expanded="false" aria-controls={`faq-answer-${index}`} data-faq-toggle>
+              <span>{item.q}</span>
+              <i aria-hidden="true">+</i>
+            </button>
+          </h3>
+          <div class="faq__answer" id={`faq-answer-${index}`} data-faq-answer>
+            <p>{item.a}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

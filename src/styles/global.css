@@ -317,6 +317,34 @@ svg {
   color: var(--color-text);
 }
 
+.nav__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 6px;
+  padding-left: 10px;
+  border-left: 1px solid var(--color-line);
+}
+
+.nav__lang-link {
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.nav__lang-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+}
+
+.nav__lang-link.is-active {
+  color: var(--color-accent);
+}
+
 .nav__toggle {
   display: none;
   width: 44px;
@@ -400,6 +428,25 @@ svg {
 
 .mobile-menu__cta {
   margin-top: auto;
+}
+
+.mobile-menu__lang {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.mobile-menu__lang .nav__lang-link {
+  padding: 10px 18px;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  font-size: 0.9375rem;
+}
+
+.mobile-menu__lang .nav__lang-link.is-active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .section {

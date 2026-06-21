@@ -1,0 +1,56 @@
+---
+import Layout from "../Layout.astro";
+import { getLang, useTranslations, localizePath } from "../../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const about = t.about;
+---
+
+<Layout active="about" title={t.meta.about.title} description={t.meta.about.description}>
+  <section class="section about page-section" aria-labelledby="about-title">
+    <p class="section-kicker">{about.kicker}</p>
+    <h1 class="page-heading page-heading--narrow" id="about-title">{about.title}</h1>
+    <p class="about__lead">{about.lead1}</p>
+    <p class="about__lead">{about.lead2}</p>
+
+    <div class="ethos-grid">
+      {about.ethos.map((item) => (
+        <article class="ethos-card">
+          <span>{item.num}</span>
+          <h2>{item.title}</h2>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <article class="origin">
+      <div class="origin__mark">
+        <img class="origin__image" src="/blakie-origin.png" alt="" width="322" height="294" loading="lazy" decoding="async" />
+      </div>
+      <div>
+        <p>{about.origin.label}</p>
+        <h2 set:html={about.origin.headingHtml}></h2>
+        <div class="origin__actions">
+          <a class="button button--ghost button--small" href={localizePath(lang, "/why-blakie/")}>{about.origin.cta}</a>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-heading section-heading--spaced">
+      <h2>{about.teamTitle}</h2>
+      <p>{about.teamSub}</p>
+    </div>
+    <div class="team-grid">
+      {about.team.map((member) => (
+        <article class={`team-card ${member.accent ? "team-card--accent" : ""}`}>
+          <span class="team-card__avatar">
+            {member.image ? <img src={member.image} alt={member.imageAlt || ""} width="720" height="720" loading="lazy" decoding="async" /> : <span class="team-card__initial">{member.initial}</span>}
+          </span>
+          <h2>{member.name}</h2>
+          <p>{member.role}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

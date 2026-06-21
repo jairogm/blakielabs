@@ -1,15 +1,23 @@
+---
+import { getLang, useTranslations } from "../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const n = t.newsletter;
+---
+
 <section class="newsletter" aria-labelledby="newsletter-title">
   <div class="newsletter__inner">
     <div>
-      <h2 id="newsletter-title">Follow the lab.</h2>
-      <p>New apps, build logs, and the occasional dog photo. No spam, ever.</p>
+      <h2 id="newsletter-title">{n.title}</h2>
+      <p>{n.body}</p>
     </div>
     <form class="newsletter__form" novalidate data-newsletter-form>
-      <label class="sr-only" for="newsletter-email">Email address</label>
-      <input id="newsletter-email" name="newsletterEmail" type="email" placeholder="you@studio.com" required aria-describedby="newsletter-error" />
-      <button class="button button--primary" type="submit">Subscribe</button>
+      <label class="sr-only" for="newsletter-email">{n.emailLabel}</label>
+      <input id="newsletter-email" name="newsletterEmail" type="email" placeholder={n.placeholder} required aria-describedby="newsletter-error" />
+      <button class="button button--primary" type="submit">{n.submit}</button>
       <small class="newsletter__error" id="newsletter-error" data-error-for="newsletterEmail" aria-live="polite"></small>
     </form>
-    <p class="newsletter__success" hidden data-newsletter-success>You're in the pack.</p>
+    <p class="newsletter__success" hidden data-newsletter-success>{n.success}</p>
   </div>
 </section>

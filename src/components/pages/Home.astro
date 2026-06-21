@@ -1,0 +1,106 @@
+---
+import Layout from "../Layout.astro";
+import { getLang, useTranslations, localizePath } from "../../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const home = t.home;
+---
+
+<Layout active="home" title={t.meta.home.title} description={t.meta.home.description}>
+  <section class="hero section" id="home" aria-labelledby="hero-title">
+    <div class="hero__copy">
+      <p class="eyebrow"><span></span>{home.eyebrow}</p>
+      <h1 class="hero__title" id="hero-title">{home.titleLead}<span>{home.titleAccent}</span></h1>
+      <p class="hero__intro">{home.intro}</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href={localizePath(lang, "/plans/")}>{home.ctaPrimary} <span>{home.ctaPrimaryNote}</span></a>
+        <a class="button button--ghost" href={localizePath(lang, "/work/#products")}>{home.ctaGhost}</a>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-label={home.heroCardAria}>
+      <div class="hero-card__grid" aria-hidden="true"></div>
+      <div class="hero-card__halo" aria-hidden="true"></div>
+      <div class="hero-stack" aria-hidden="true">
+        <span class="hero-stack__item hero-stack__item--js">JS</span>
+        <span class="hero-stack__item hero-stack__item--react">React</span>
+        <span class="hero-stack__item hero-stack__item--java">Java</span>
+        <span class="hero-stack__item hero-stack__item--html">HTML</span>
+        <span class="hero-stack__item hero-stack__item--css">CSS</span>
+        <span class="hero-stack__item hero-stack__item--node">Node</span>
+      </div>
+      <img class="hero-card__mark" src="/blakie-origin.png" alt="" width="322" height="294" decoding="async" fetchpriority="high" />
+      <p class="hero-card__caption">{home.heroCaption}</p>
+    </div>
+  </section>
+
+  <section class="section model" aria-labelledby="model-title">
+    <div class="section-heading">
+      <h2 id="model-title">{home.modelTitle}</h2>
+      <p>{home.modelSub}</p>
+    </div>
+
+    <div class="model__grid">
+      <article class="panel panel--large">
+        <p class="panel__kicker">{home.agency.kicker}</p>
+        <h3>{home.agency.title}</h3>
+        <p>{home.agency.body}</p>
+        <ul class="check-list">
+          {home.agency.points.map((point) => <li>{point}</li>)}
+        </ul>
+        <a class="text-link" href={localizePath(lang, "/plans/")}>{home.agency.link}</a>
+      </article>
+
+      <article class="panel panel--large">
+        <p class="panel__kicker">{home.lab.kicker}</p>
+        <h3>{home.lab.title}</h3>
+        <p>{home.lab.body}</p>
+        <div class="app-preview">
+          {home.labPreview.map((app) => (
+            <div class="app-preview__item">
+              <span class={`app-icon app-icon--${app.iconClass}`}>{app.initial}</span>
+              <span>
+                <strong>{app.name}</strong>
+                <small class={`status status--${app.statusClass}`}>{app.status}</small>
+              </span>
+            </div>
+          ))}
+        </div>
+        <a class="text-link" href={localizePath(lang, "/work/#products")}>{home.lab.link}</a>
+      </article>
+    </div>
+
+    <div class="stats">
+      {home.stats.map((stat) => (
+        <div class="stats__item">
+          <strong>{stat.num}</strong>
+          <span>{stat.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section proof" aria-labelledby="proof-title">
+    <p class="proof__kicker" id="proof-title">{home.proof.kicker}</p>
+    <div class="proof__logos" aria-label={home.proof.logosAria}>
+      {home.proof.clientLogos.map((logo) => <span>{logo}</span>)}
+    </div>
+    <div class="testimonial-grid">
+      {home.testimonials.map((item) => (
+        <figure class="testimonial">
+          <blockquote>
+            <span class="testimonial__quote-mark" aria-hidden="true">&ldquo;</span>{item.quote}<span class="testimonial__quote-mark" aria-hidden="true">&rdquo;</span>
+          </blockquote>
+          <figcaption>
+            <span class="testimonial__avatar" aria-hidden="true">
+              {item.image ? <img src={item.image} alt="" width="720" height="720" loading="lazy" decoding="async" /> : <span class="testimonial__mark">&quot;</span>}
+            </span>
+            <strong>{item.name}</strong>
+            <small>{item.org}</small>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+</Layout>

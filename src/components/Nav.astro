@@ -1,49 +1,80 @@
 ---
 import Brand from "./Brand.astro";
+import { getLang, useTranslations, localizePath, getAlternateUrls, languages } from "../i18n/ui.js";
 
 const { active = "home" } = Astro.props;
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const alt = getAlternateUrls(Astro);
+
 const links = [
-  { id: "work", label: "Work", href: "/work/" },
-  { id: "about", label: "About", href: "/about/" },
-  { id: "plans", label: "Plans", href: "/plans/" },
-  { id: "contact", label: "Contact", href: "/contact/" }
+  { id: "work", label: t.nav.links.work, href: localizePath(lang, "/work/") },
+  { id: "about", label: t.nav.links.about, href: localizePath(lang, "/about/") },
+  { id: "plans", label: t.nav.links.plans, href: localizePath(lang, "/plans/") },
+  { id: "contact", label: t.nav.links.contact, href: localizePath(lang, "/contact/") }
+];
+const ctaHref = localizePath(lang, "/plans/");
+const homeHref = localizePath(lang, "/");
+const langLinks = [
+  { code: "en", label: languages.en, href: alt.en },
+  { code: "es", label: languages.es, href: alt.es }
 ];
 ---
 
 <header class="nav" data-nav>
-  <Brand showMark={false} />
+  <Brand href={homeHref} showMark={false} />
 
-  <a class="nav__center-mark" href="/" aria-label="Blakie Labs home" data-logo-link>
+  <a class="nav__center-mark" href={homeHref} aria-label={t.nav.homeAria} data-logo-link>
     <img src="/paw.svg" alt="" width="3000" height="1636" />
   </a>
 
-  <button class="nav__toggle" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" data-menu-toggle>
+  <button class="nav__toggle" type="button" aria-label={t.nav.menuOpen} aria-controls="mobile-menu" aria-expanded="false" data-menu-toggle>
     <span></span>
     <span></span>
     <span></span>
   </button>
 
-  <nav class="nav__links" aria-label="Primary navigation">
+  <nav class="nav__links" aria-label={t.nav.primaryNav}>
     {links.map((link) => (
       <a class:list={["nav__link", { "is-active": active === link.id }]} href={link.href} aria-current={active === link.id ? "page" : undefined}>
         {link.label}
       </a>
     ))}
-    <a class="button button--primary button--small" href="/plans/">Hire the Lab →</a>
+    <a class="button button--primary button--small" href={ctaHref}>{t.nav.cta}</a>
+    <div class="nav__lang" role="group" aria-label={t.nav.switcherAria}>
+      {langLinks.map((item) => (
+        <a
+          class:list={["nav__lang-link", { "is-active": lang === item.code }]}
+          href={item.href}
+          hreflang={item.code}
+          aria-current={lang === item.code ? "true" : undefined}
+        >{item.label}</a>
+      ))}
+    </div>
   </nav>
 </header>
 
 <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
   <div class="mobile-menu__bar">
-    <Brand href="/" showMark={false} />
-    <button class="mobile-menu__close" type="button" aria-label="Close menu" data-menu-close>&times;</button>
+    <Brand href={homeHref} showMark={false} />
+    <button class="mobile-menu__close" type="button" aria-label={t.nav.menuClose} data-menu-close>&times;</button>
   </div>
-  <nav class="mobile-menu__links" aria-label="Mobile navigation">
+  <nav class="mobile-menu__links" aria-label={t.nav.mobileNav}>
     {links.map((link) => (
       <a class:list={{ "is-active": active === link.id }} href={link.href} aria-current={active === link.id ? "page" : undefined} data-mobile-link>
         {link.label}
       </a>
     ))}
   </nav>
-  <a class="button button--primary mobile-menu__cta" href="/plans/" data-mobile-link>Hire the Lab →</a>
+  <a class="button button--primary mobile-menu__cta" href={ctaHref} data-mobile-link>{t.nav.cta}</a>
+  <div class="mobile-menu__lang" role="group" aria-label={t.nav.switcherAria}>
+    {langLinks.map((item) => (
+      <a
+        class:list={["nav__lang-link", { "is-active": lang === item.code }]}
+        href={item.href}
+        hreflang={item.code}
+        aria-current={lang === item.code ? "true" : undefined}
+      >{item.label}</a>
+    ))}
+  </div>
 </div>

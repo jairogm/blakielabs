@@ -1,5 +1,6 @@
 <script>
   import { navigate } from "astro:transitions/client";
+  import { formMessages } from "../i18n/forms.js";
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const focusableSelector = [
@@ -11,22 +12,12 @@
     "[tabindex]:not([tabindex='-1'])"
   ].join(",");
   const pawSvg = '<svg viewBox="0 0 32 32" width="100%" height="100%" fill="currentColor"><ellipse cx="16" cy="21" rx="7.5" ry="6.5"/><circle cx="7.5" cy="13.5" r="2.7"/><circle cx="13.5" cy="9" r="2.9"/><circle cx="20.5" cy="9" r="2.9"/><circle cx="24.5" cy="13.5" r="2.7"/></svg>';
-  const messages = {
-    valueMissing: {
-      name: "Tell us your name.",
-      company: "Add your company name.",
-      email: "Add your email address.",
-      brief: "Give us a little context first.",
-      newsletterEmail: "Add your email address."
-    },
-    typeMismatch: {
-      email: "Use a valid email address.",
-      newsletterEmail: "Use a valid email address."
-    },
-    tooShort: {
-      brief: "Give us at least 12 characters so we have something to work with."
-    }
-  };
+  // Resolve form copy for the active locale at use-time, so it stays correct
+  // across client-side (view transition) navigations between en and es.
+  function getMessages() {
+    const lang = location.pathname.startsWith("/es") ? "es" : "en";
+    return formMessages[lang] ?? formMessages.en;
+  }
 
   let lastFocusedElement = null;
   let keyBuffer = "";
@@ -231,9 +222,10 @@
 
   function getErrorMessage(field) {
     const name = field.name;
-    if (field.validity.valueMissing) return messages.valueMissing[name] || "This field is required.";
-    if (field.validity.typeMismatch) return messages.typeMismatch[name] || "Enter a valid value.";
-    if (field.validity.tooShort) return messages.tooShort[name] || `Use at least ${field.minLength} characters.`;
+    const messages = getMessages();
+    if (field.validity.valueMissing) return messages.valueMissing[name] || messages.requiredFallback;
+    if (field.validity.typeMismatch) return messages.typeMismatch[name] || messages.invalidFallback;
+    if (field.validity.tooShort) return messages.tooShort[name] || messages.tooShortFallback.replace("{min}", field.minLength);
     return "";
   }
 
@@ -366,7 +358,8 @@
       const submitButton = form.querySelector("[data-submit-button]");
       const contactCard = document.querySelector("[data-contact-card]");
       const contactSuccess = document.querySelector("[data-contact-success]");
-      submitButton.textContent = "Transmitting brief...";
+      const originalLabel = submitButton.textContent;
+      submitButton.textContent = getMessages().submitting;
       submitButton.disabled = true;
       window.setTimeout(() => {
         if (contactCard) contactCard.hidden = true;
@@ -374,7 +367,7 @@
           contactSuccess.hidden = false;
           contactSuccess.focus();
         }
-        submitButton.textContent = "Transmit Brief →";
+        submitButton.textContent = originalLabel;
         submitButton.disabled = false;
       }, 500);
       return;

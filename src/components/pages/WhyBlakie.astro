@@ -1,0 +1,93 @@
+---
+import Layout from "../Layout.astro";
+import { getLang, useTranslations, localizePath } from "../../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const story = t.whyBlakie;
+---
+
+<Layout active="about" title={t.meta.whyBlakie.title} description={t.meta.whyBlakie.description}>
+  <section class="section story page-section" aria-labelledby="story-title">
+    <a class="story__back text-link" href={localizePath(lang, "/about/")}>{story.back}</a>
+
+    <div class="story-hero">
+      <div class="story-hero__copy">
+        <p class="section-kicker">{story.kicker}</p>
+        <h1 class="page-heading page-heading--narrow" id="story-title">{story.title}</h1>
+        {story.intro.map((para) => <p set:html={para}></p>)}
+      </div>
+    </div>
+
+    <div class="story-grid">
+      <article class="story-copy">
+        <span>{story.storyCopy.tag}</span>
+        <h2>{story.storyCopy.title}</h2>
+        {story.storyCopy.paras.map((para) => <p set:html={para}></p>)}
+      </article>
+
+      <aside class="story-sticker-wall" aria-label={story.stickerWallAria}>
+        <img src="/stikers/blakie-gears.svg" alt={story.stickerAlts.gears} width="162" height="169" loading="lazy" decoding="async" />
+        <img src="/stikers/blakie-exe.svg" alt={story.stickerAlts.exe} width="311" height="100" loading="lazy" decoding="async" />
+        <img src="/stikers/geometric-paw.svg" alt={story.stickerAlts.paw} width="204" height="231" loading="lazy" decoding="async" />
+      </aside>
+    </div>
+
+    <section class="story-slider" aria-labelledby="story-gallery-title" data-story-slider>
+      <div class="section-heading">
+        <h2 id="story-gallery-title">{story.gallery.title}</h2>
+        <p>{story.gallery.sub}</p>
+      </div>
+
+      <div class="story-slider__viewport">
+        <div class="story-slider__track" data-story-track>
+          {story.moments.map((moment, index) => (
+            <article class:list={["story-slider__slide", { "is-active": index === 0 }]} data-story-slide aria-hidden={index === 0 ? "false" : "true"}>
+              <div class="story-photo">
+                <img src={moment.sticker} alt="" width={moment.stickerWidth} height={moment.stickerHeight} loading="lazy" decoding="async" aria-hidden="true" />
+                <span>{story.photoBadge}</span>
+              </div>
+              <div class="story-slider__copy">
+                <span>{moment.label}</span>
+                <h3>{moment.title}</h3>
+                <p>{moment.caption}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="story-slider__controls">
+        <button class="story-slider__button" type="button" aria-label={story.prevAria} data-story-prev>←</button>
+        <div class="story-slider__dots" aria-label={story.dotsAria}>
+          {story.moments.map((moment, index) => (
+            <button
+              class:list={["story-slider__dot", { "is-active": index === 0 }]}
+              type="button"
+              aria-label={`${story.showPrefix}${moment.title}`}
+              aria-current={index === 0 ? "true" : undefined}
+              data-story-dot={index}
+            ></button>
+          ))}
+        </div>
+        <button class="story-slider__button" type="button" aria-label={story.nextAria} data-story-next>→</button>
+      </div>
+    </section>
+
+    <div class="story-pack" aria-label={story.packAria}>
+      {story.pets.map((pet) => (
+        <article class="story-pack__card">
+          <span>{pet.role}</span>
+          <h2>{pet.name}</h2>
+          <p>{pet.note}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="story-closing">
+      <img src="/stikers/buil-with-teeth-4.svg" alt="" width="425" height="170" loading="lazy" decoding="async" aria-hidden="true" />
+      <p>{story.closing.text}</p>
+      <a class="button button--primary button--small" href={localizePath(lang, "/contact/")}>{story.closing.cta}</a>
+    </div>
+  </section>
+</Layout>

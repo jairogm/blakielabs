@@ -1,0 +1,63 @@
+---
+import Layout from "../Layout.astro";
+import { getLang, useTranslations } from "../../i18n/ui.js";
+
+const lang = getLang(Astro);
+const t = useTranslations(lang);
+const contact = t.contact;
+const f = contact.fields;
+---
+
+<Layout active="contact" title={t.meta.contact.title} description={t.meta.contact.description} newsletter={false}>
+  <section class="section contact page-section" aria-labelledby="contact-title">
+    <div class="contact__inner" data-contact-card>
+      <p class="section-kicker">{contact.kicker}</p>
+      <h1 class="page-heading" id="contact-title">{contact.title}</h1>
+      <p class="contact__intro">{contact.intro}</p>
+
+      <form class="form" novalidate data-contact-form>
+        <fieldset class="form__choice">
+          <legend>{contact.legend}</legend>
+          {contact.choices.map((choice, index) => (
+            <label class="choice-card">
+              <input type="radio" name="type" value={choice.value} checked={index === 0} />
+              <span>{choice.num}</span>
+              <strong>{choice.label}</strong>
+            </label>
+          ))}
+        </fieldset>
+
+        <div class="form__grid">
+          <label class="field">
+            <span>{f.name.label}</span>
+            <input id="name" name="name" autocomplete="name" placeholder={f.name.placeholder} required aria-describedby="name-error" />
+            <small class="field__error" id="name-error" data-error-for="name" aria-live="polite"></small>
+          </label>
+          <label class="field">
+            <span>{f.company.label}</span>
+            <input id="company" name="company" autocomplete="organization" placeholder={f.company.placeholder} required aria-describedby="company-error" />
+            <small class="field__error" id="company-error" data-error-for="company" aria-live="polite"></small>
+          </label>
+        </div>
+        <label class="field">
+          <span>{f.email.label}</span>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder={f.email.placeholder} required aria-describedby="email-error" />
+          <small class="field__error" id="email-error" data-error-for="email" aria-live="polite"></small>
+        </label>
+        <label class="field">
+          <span>{f.brief.label}</span>
+          <textarea id="brief" name="brief" rows="4" placeholder={f.brief.placeholder} required minlength="12" aria-describedby="brief-error"></textarea>
+          <small class="field__error" id="brief-error" data-error-for="brief" aria-live="polite"></small>
+        </label>
+        <button class="button button--primary form__submit" type="submit" data-submit-button>{contact.submit}</button>
+      </form>
+    </div>
+
+    <div class="contact__success" hidden data-contact-success tabindex="-1">
+      <img class="contact__success-mark" src="/blakie-origin.png" alt="" width="322" height="294" loading="lazy" decoding="async" />
+      <h2>{contact.successTitle}</h2>
+      <p>{contact.successBody}</p>
+      <button class="button button--ghost" type="button" data-reset-contact>{contact.sendAnother}</button>
+    </div>
+  </section>
+</Layout>
