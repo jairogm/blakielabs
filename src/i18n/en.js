@@ -48,7 +48,7 @@ export default {
   },
 
   footer: {
-    line: "© 2026 - built with teeth."
+    line: "© {year} - built with teeth."
   },
 
   newsletter: {

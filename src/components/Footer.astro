@@ -4,6 +4,8 @@ import { getLang, useTranslations, localizePath } from "../i18n/ui.js";
 
 const lang = getLang(Astro);
 const t = useTranslations(lang);
+const year = new Date().getFullYear();
+const footerLine = t.footer.line.replace("{year}", year);
 ---
 
 <footer class="footer">
@@ -16,6 +18,6 @@ const t = useTranslations(lang);
       <circle cx="20.5" cy="9" r="2.9"></circle>
       <circle cx="24.5" cy="13.5" r="2.7"></circle>
     </svg>
-    {t.footer.line}
+    {footerLine}
   </span>
 </footer>

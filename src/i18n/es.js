@@ -48,7 +48,7 @@ export default {
   },
 
   footer: {
-    line: "© 2026 - hecho con dientes."
+    line: "© {year} - hecho con dientes y corazón."
   },
 
   newsletter: {
