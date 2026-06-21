@@ -29,7 +29,7 @@ const structuredData = {
       "@id": `${siteRoot.toString()}#organization`,
       name: "Blakie Labs",
       url: siteRoot.toString(),
-      logo: new URL("/paw.svg", siteRoot).toString()
+      logo: new URL("/android-chrome-512x512.png", siteRoot).toString()
     },
     {
       "@type": "WebSite",
@@ -73,7 +73,11 @@ const structuredData = {
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
     <meta name="theme-color" content="#0A0A0A" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="manifest" href="/site.webmanifest" />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="preconnect" href="https://api.fontshare.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
