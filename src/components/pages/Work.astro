@@ -43,7 +43,9 @@ const products = t.products;
         {products.map((product) => (
           <article class="product-card">
             <div class="product-card__top">
-              <span class={`app-icon app-icon--${product.iconClass}`}>{product.initial}</span>
+              <span class={`app-icon app-icon--${product.iconClass}`}>
+                <svg class="app-glyph" aria-hidden="true"><use href={`#pg-${product.slug}`} /></svg>
+              </span>
               <small class={`status status--${product.statusClass}`}>{product.status}</small>
             </div>
             <h2>{product.name}</h2>

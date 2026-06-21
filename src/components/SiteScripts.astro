@@ -182,11 +182,13 @@
     setText(modal, "[data-modal-status]", product.status);
     setText(modal, "[data-modal-tagline]", product.detail.tagline);
     setText(modal, "[data-modal-problem]", product.detail.problem);
-    setText(modal, "[data-modal-icon]", product.initial);
     setText(modal, "[data-modal-cta]", `${product.cta} →`);
 
     const icon = modal.querySelector("[data-modal-icon]");
-    if (icon) icon.className = `app-icon app-icon--${product.iconClass}`;
+    if (icon) {
+      icon.className = `app-icon app-icon--${product.iconClass}`;
+      icon.innerHTML = `<svg class="app-glyph" aria-hidden="true"><use href="#pg-${product.slug}"></use></svg>`;
+    }
     const status = modal.querySelector("[data-modal-status]");
     if (status) status.className = `status status--${product.statusClass}`;
 

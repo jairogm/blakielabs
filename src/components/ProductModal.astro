@@ -12,10 +12,12 @@ const m = t.modal;
   <section class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" tabindex="-1">
     <button class="modal__close" type="button" aria-label={m.closeAria} data-modal-close>&times;</button>
     <div class="modal__header">
-      <span class="app-icon app-icon--accent" data-modal-icon>F</span>
+      <span class="app-icon app-icon--accent" data-modal-icon>
+        <svg class="app-glyph" aria-hidden="true"><use href="#pg-shipbite" /></svg>
+      </span>
       <div>
-        <h2 id="modal-title" data-modal-title>Fetchly</h2>
-        <small class="status status--live" data-modal-status>Live</small>
+        <h2 id="modal-title" data-modal-title>Shipbite</h2>
+        <small class="status status--beta" data-modal-status>Private Beta</small>
       </div>
     </div>
     <p class="modal__tagline" id="modal-desc" data-modal-tagline></p>

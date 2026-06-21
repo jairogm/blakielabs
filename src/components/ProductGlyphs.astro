@@ -1,0 +1,56 @@
+---
+// Inline SVG sprite of product logo marks. Rendered once per page (via Layout)
+// so any <svg><use href="#pg-<slug>" /></svg> resolves — including the markup
+// the product modal injects client-side. Glyphs use currentColor, so they adopt
+// the dark-on-lime (accent) or light-on-dark (quiet) color of their .app-icon tile.
+---
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden">
+  <!-- Shipbite — release notes with teeth -->
+  <symbol id="pg-shipbite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7.5 H13.5" />
+    <path d="M4 12 H16.5" />
+    <path d="M4 16.5 H12" />
+    <path d="M17 5 L21 12 L17 19" />
+    <path d="M17 5 L14 12 L17 19" />
+  </symbol>
+
+  <!-- Tracewell — error tracking crosshair -->
+  <symbol id="pg-tracewell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="6.5" />
+    <line x1="12" y1="2" x2="12" y2="5" />
+    <line x1="12" y1="19" x2="12" y2="22" />
+    <line x1="2" y1="12" x2="5" y2="12" />
+    <line x1="19" y1="12" x2="22" y2="12" />
+    <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" />
+  </symbol>
+
+  <!-- Kennel — deploy dashboard, a dog house -->
+  <symbol id="pg-kennel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 11 L12 4 L20 11" />
+    <path d="M6 11 V19 H18 V11" />
+    <path d="M10 19 V15 a2 2 0 0 1 4 0 V19" />
+  </symbol>
+
+  <!-- Sniff — privacy analytics, ascending bars -->
+  <symbol id="pg-sniff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="6.5" y1="18.5" x2="6.5" y2="14" />
+    <line x1="12" y1="18.5" x2="12" y2="10" />
+    <line x1="17.5" y1="18.5" x2="17.5" y2="6" />
+  </symbol>
+
+  <!-- Boneyard — code snippet vault, braces -->
+  <symbol id="pg-boneyard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 5 C8 5 8 8 8 9.5 C8 11 7 12 6 12 C7 12 8 13 8 14.5 C8 16 8 19 10 19" />
+    <path d="M14 5 C16 5 16 8 16 9.5 C16 11 17 12 18 12 C17 12 16 13 16 14.5 C16 16 16 19 14 19" />
+    <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+  </symbol>
+
+  <!-- Packdesk — client delivery portal -->
+  <symbol id="pg-packdesk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="5" width="16" height="14" rx="2" />
+    <path d="M8 9 H16" />
+    <path d="M8 13 H12" />
+    <path d="M15 13 L17 15 L20 11" />
+  </symbol>
+</svg>

@@ -59,7 +59,9 @@ const home = t.home;
         <div class="app-preview">
           {home.labPreview.map((app) => (
             <div class="app-preview__item">
-              <span class={`app-icon app-icon--${app.iconClass}`}>{app.initial}</span>
+              <span class={`app-icon app-icon--${app.iconClass}`}>
+                <svg class="app-glyph" aria-hidden="true"><use href={`#pg-${app.slug}`} /></svg>
+              </span>
               <span>
                 <strong>{app.name}</strong>
                 <small class={`status status--${app.statusClass}`}>{app.status}</small>

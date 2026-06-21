@@ -5,6 +5,7 @@ import Footer from "./Footer.astro";
 import Nav from "./Nav.astro";
 import Newsletter from "./Newsletter.astro";
 import SiteScripts from "./SiteScripts.astro";
+import ProductGlyphs from "./ProductGlyphs.astro";
 import { getLang, useTranslations, getAlternateUrls } from "../i18n/ui.js";
 
 const {
@@ -117,6 +118,7 @@ const structuredData = {
       <Footer />
     </div>
     <slot name="overlays" />
+    <ProductGlyphs />
     <SiteScripts />
   </body>
 </html>

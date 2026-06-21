@@ -88,17 +88,17 @@ export default {
     lab: {
       kicker: "02 - THE LAB",
       title: "Apps we ship for ourselves.",
-      body: "A growing suite of proprietary SaaS, built in the open. Some live, some incubating in the kennel.",
+      body: "A focused suite of Blakie-built products for teams that ship: release notes, observability, ops, analytics, knowledge, and client delivery.",
       link: "Browse all products"
     },
     labPreview: [
-      { name: "Fetchly", initial: "F", status: "Live", statusClass: "live", iconClass: "accent" },
-      { name: "Tracewell", initial: "T", status: "In Beta", statusClass: "beta", iconClass: "quiet" },
-      { name: "Kennel", initial: "K", status: "Live", statusClass: "live", iconClass: "quiet" },
-      { name: "Sniff", initial: "S", status: "In Beta", statusClass: "beta", iconClass: "accent" }
+      { slug: "shipbite", name: "Shipbite", initial: "S", status: "Private Beta", statusClass: "beta", iconClass: "accent" },
+      { slug: "tracewell", name: "Tracewell", initial: "T", status: "Prototype", statusClass: "incubator", iconClass: "quiet" },
+      { slug: "kennel", name: "Kennel", initial: "K", status: "Live Demo", statusClass: "live", iconClass: "quiet" },
+      { slug: "packdesk", name: "Packdesk", initial: "P", status: "Alpha", statusClass: "beta", iconClass: "accent" }
     ],
     stats: [
-      { num: "6", label: "PRODUCTS SHIPPED" },
+      { num: "6", label: "PRODUCTS IN THE LAB" },
       { num: "12+", label: "CLIENT SYSTEMS" },
       { num: "24h", label: "BRIEF RESPONSE" },
       { num: "100%", label: "SENIOR ENGINEERS" }
@@ -106,19 +106,20 @@ export default {
     proof: {
       kicker: "TRUSTED BY TEAMS THAT SHIP",
       logosAria: "Client logos",
-      clientLogos: ["Meridian", "Northwind", "Atlas Health", "Volt", "Halcyon", "Driftwell"]
+      clientLogos: ["CargoNest", "Northstar", "CuraGrid", "Voltway", "Fieldkit", "BrightOps"]
     },
+    // Fictional demo testimonials for the university presentation.
     testimonials: [
       {
-        quote: "Blakie shipped in six weeks what our last vendor could not in a year, and the code is immaculate.",
+        quote: "Blakie turned a messy dispatch idea into a product demo that felt production-ready in weeks.",
         name: "VP Engineering",
-        org: "Meridian Freight",
+        org: "CargoNest Logistics",
         image: "/testimonials/meridian-vp.webp"
       },
       {
-        quote: "They treated our product like their own. Zero hand-holding, all signal, every single week.",
+        quote: "The architecture, handoff, and product thinking felt like a senior team had been embedded with us from day one.",
         name: "CTO",
-        org: "Northwind Capital",
+        org: "Northstar Capital",
         image: "/testimonials/northwind-cto.webp"
       }
     ]
@@ -131,169 +132,170 @@ export default {
     tabClients: "Client Systems",
     tabProducts: "Our Products",
     viewCaseStudy: "View case study",
+    // Fictional demo clients for the university presentation.
     clients: [
       {
-        name: "Meridian Freight",
+        name: "CargoNest Logistics",
         sector: "LOGISTICS",
-        tag: "Architecture",
-        desc: "Rebuilt the dispatch engine from a creaking monolith into an event-driven system.",
-        metric: "4x",
-        metricLabel: "throughput",
-        metric2: "-62%",
-        metric2Label: "latency"
+        tag: "Control Tower",
+        desc: "Designed an event-driven dispatch console that turns shipment chaos into live operational state.",
+        metric: "3.8x",
+        metricLabel: "faster planning",
+        metric2: "-54%",
+        metric2Label: "manual updates"
       },
       {
-        name: "Northwind Capital",
+        name: "Northstar Capital",
         sector: "FINTECH",
         tag: "Realtime",
-        desc: "A realtime trading dashboard streaming portfolio state at sub-100ms.",
+        desc: "Modeled a realtime portfolio cockpit with streaming positions, risk bands, and audit-friendly event history.",
         metric: "<100ms",
-        metricLabel: "tick-to-render",
+        metricLabel: "state refresh",
         metric2: "99.99%",
-        metric2Label: "uptime"
+        metric2Label: "target uptime"
       },
       {
-        name: "Atlas Health",
+        name: "CuraGrid Clinics",
         sector: "HEALTHCARE",
-        tag: "Migration",
-        desc: "HIPAA-grade patient portal, migrated live with zero downtime over a weekend.",
-        metric: "0",
-        metricLabel: "downtime",
-        metric2: "1.2M",
-        metric2Label: "records moved"
+        tag: "Patient Flow",
+        desc: "Mapped a secure intake and triage portal that routes patients, notes, and follow-ups without spreadsheet drift.",
+        metric: "42%",
+        metricLabel: "less admin time",
+        metric2: "0",
+        metric2Label: "lost handoffs"
       },
       {
-        name: "Volt Mobility",
+        name: "Voltway Mobility",
         sector: "MOBILITY",
-        tag: "Scale",
-        desc: "EV charging network app scaled from prototype to a national rollout.",
-        metric: "200k",
-        metricLabel: "monthly actives",
-        metric2: "38",
-        metric2Label: "states live"
+        tag: "Fleet Ops",
+        desc: "Prototyped an EV charging operations layer for station health, queue pressure, and field technician routing.",
+        metric: "18k",
+        metricLabel: "stations modeled",
+        metric2: "31",
+        metric2Label: "regions planned"
       }
     ]
   },
 
   products: [
     {
-      slug: "fetchly",
-      name: "Fetchly",
-      initial: "F",
-      status: "Live",
-      statusClass: "live",
+      slug: "shipbite",
+      name: "Shipbite",
+      initial: "S",
+      status: "Private Beta",
+      statusClass: "beta",
       iconClass: "accent",
-      desc: "AI changelog and release-note generator. Ships notes your users actually read.",
-      cta: "Open app",
+      desc: "AI release notes and changelogs that turn messy commits into customer-ready product updates.",
+      cta: "View prototype",
       detail: {
-        tagline: "Turn raw commits into release notes humans actually want to read.",
-        problem: "Teams ship constantly but changelogs rot. Users miss what shipped and support fields the same questions over and over.",
+        tagline: "Release notes that sound like product, not a git diff.",
+        problem: "Teams ship every week, but launch communication gets trapped in commits, Linear tickets, and Slack threads. Users miss value and support repeats the same explanations.",
         build: [
-          "LLM pipeline that summarizes merged PRs into plain-English notes",
-          "One-click publish to a hosted, themeable changelog",
-          "Slack and email digests on every release"
+          "PR, Linear, and Jira ingestion that groups work into customer-facing themes",
+          "Tone controls for founder updates, SaaS changelogs, and enterprise release notes",
+          "Embeddable changelog page with Slack, email, and webhook publishing"
         ],
-        stack: ["TypeScript", "Next.js", "Postgres", "OpenAI"]
+        stack: ["TypeScript", "Astro", "Postgres", "OpenAI", "Resend"]
       }
     },
     {
       slug: "tracewell",
       name: "Tracewell",
       initial: "T",
-      status: "In Beta",
-      statusClass: "beta",
+      status: "Prototype",
+      statusClass: "incubator",
       iconClass: "quiet",
-      desc: "Self-hosted error tracking with zero bloat and full data ownership.",
-      cta: "Join beta",
+      desc: "Self-hosted error tracking for teams that want observability without surrendering stack traces.",
+      cta: "Request access",
       detail: {
-        tagline: "Error tracking you actually own: self-hosted, lightweight, yours.",
-        problem: "Hosted error tools are pricey, send stack traces to someone else's cloud, and bury signal under noise.",
+        tagline: "Own your errors, stack traces, and incident signal.",
+        problem: "Hosted error tools get expensive fast, send sensitive stack traces to another cloud, and make small teams fight noisy dashboards before they can fix the actual bug.",
         build: [
-          "Single-binary deploy on your own infra",
-          "Smart grouping that collapses duplicate noise",
-          "Source-map support with sub-second ingest"
+          "Single-tenant deploy with project-level retention and data controls",
+          "Fingerprinting that groups noisy errors without hiding regressions",
+          "Source-map upload, release tracking, and Slack incident routing"
         ],
-        stack: ["Rust", "ClickHouse", "Astro", "Docker"]
+        stack: ["Rust", "ClickHouse", "Astro", "Docker", "Workers"]
       }
     },
     {
       slug: "kennel",
       name: "Kennel",
       initial: "K",
-      status: "Live",
+      status: "Live Demo",
       statusClass: "live",
       iconClass: "quiet",
-      desc: "Deploy and manage all your side projects from a single dashboard.",
-      cta: "Open app",
+      desc: "A command center for indie builders running too many apps across too many providers.",
+      cta: "Open demo",
       detail: {
-        tagline: "Every side project, one dashboard: deploy, monitor, and forget the YAML.",
-        problem: "Indie builders run tiny apps across too many hosts and lose track of what is live, what is costing money, and what is down.",
+        tagline: "Every side project, one clean cockpit.",
+        problem: "Indie builders spread projects across Vercel, Fly, Render, Railway, and old VPS boxes. Costs drift, uptime gets blurry, and environment variables become archaeology.",
         build: [
-          "Unified deploy panel across providers",
-          "Cost and uptime at a glance per project",
-          "Auto-sleep for idle apps to cut spend"
+          "Provider inventory with health, deploy status, cost, and environment drift",
+          "One-screen project map that flags abandoned, down, or over-budget apps",
+          "Auto-sleep recommendations and launch checklist for small SaaS projects"
         ],
-        stack: ["Go", "Svelte", "Postgres", "Fly.io"]
+        stack: ["Go", "SvelteKit", "Postgres", "Fly.io", "Vercel"]
       }
     },
     {
       slug: "sniff",
       name: "Sniff",
       initial: "S",
-      status: "In Beta",
-      statusClass: "beta",
+      status: "In Design",
+      statusClass: "incubator",
       iconClass: "accent",
-      desc: "Privacy-first product analytics. Cookieless, lightweight, honest.",
-      cta: "Join beta",
+      desc: "Privacy-first product analytics for founders who want signal without surveillance.",
+      cta: "See concept",
       detail: {
-        tagline: "Product analytics that respect your users: cookieless and honest.",
-        problem: "Most analytics are bloated and need a cookie banner. You want the numbers without selling out your users.",
+        tagline: "Funnels and retention without a surveillance tax.",
+        problem: "Most analytics tools are heavy, cookie-dependent, and compliance-heavy before a founder even knows what to measure. Small teams need signal without tracking creep.",
         build: [
-          "Cookieless, GDPR-clean event tracking",
-          "Sub-2kb script with no performance drag",
-          "Funnels and retention without surveillance"
+          "Cookieless event model with anonymous journeys and no cross-site tracking",
+          "Sub-2kb tracking script designed for fast marketing and app surfaces",
+          "Simple dashboards for activation, retention, funnels, and release impact"
         ],
-        stack: ["Elixir", "ClickHouse", "Astro", "Phoenix"]
+        stack: ["Elixir", "Phoenix", "ClickHouse", "Astro", "Edge"]
       }
     },
     {
       slug: "boneyard",
       name: "Boneyard",
       initial: "B",
-      status: "In Incubator",
+      status: "Incubating",
       statusClass: "incubator",
       iconClass: "quiet",
-      desc: "A code-snippet vault with semantic search across your whole stack.",
-      cta: "Get notified",
+      desc: "A code memory vault for fixes, snippets, decisions, and patterns your team keeps relearning.",
+      cta: "Join waitlist",
       detail: {
-        tagline: "Your team's code memory: every snippet, semantically searchable.",
-        problem: "The fix from six months ago is buried in a thread. Tribal knowledge walks out the door with every departure.",
+        tagline: "Stop solving the same engineering problem twice.",
+        problem: "The fix from six months ago is buried in Slack, a PR comment, a gist, or one engineer's memory. Teams keep relearning the same implementation details.",
         build: [
-          "Semantic search across snippets and gists",
-          "Editor and CLI capture in one keystroke",
-          "Team libraries with access control"
+          "Semantic vault for snippets, architectural decisions, incident fixes, and gotchas",
+          "Editor, browser, and CLI capture flows with tagging that does not feel like documentation",
+          "Team spaces with access control, review states, and reusable implementation recipes"
         ],
-        stack: ["Python", "pgvector", "Astro", "Tauri"]
+        stack: ["Python", "FastAPI", "pgvector", "Tauri", "Astro"]
       }
     },
     {
-      slug: "howl",
-      name: "Howl",
-      initial: "H",
-      status: "In Incubator",
-      statusClass: "incubator",
+      slug: "packdesk",
+      name: "Packdesk",
+      initial: "P",
+      status: "Alpha",
+      statusClass: "beta",
       iconClass: "quiet",
-      desc: "Realtime status pages that load fast, theme cleanly, and embed anywhere.",
-      cta: "Get notified",
+      desc: "A client portal for senior retainers: briefs, approvals, roadmap, velocity, and delivery receipts.",
+      cta: "View alpha",
       detail: {
-        tagline: "Status pages that load instantly and feel like part of your product.",
-        problem: "Status pages are slow, generic, and live on someone else's subdomain. When things are down, the page has to be clear.",
+        tagline: "The operating system for high-trust software retainers.",
+        problem: "Agency work gets scattered across calls, Slack threads, invoices, and status updates. Clients need one place to see decisions, progress, risks, and what shipped.",
         build: [
-          "Edge-rendered pages that load in under 100ms",
-          "Fully themeable and embeddable widget",
-          "Auto-incident detection from your monitors"
+          "Brief intake, decision logs, weekly ship notes, and approval checkpoints in one client space",
+          "Roadmap board tied to delivered artifacts, demo links, invoices, and open risks",
+          "Velocity receipts that show what shipped, what changed, and what needs a founder decision"
         ],
-        stack: ["TypeScript", "Workers", "Astro", "Durable Objects"]
+        stack: ["TypeScript", "Astro", "Postgres", "Stripe", "Resend"]
       }
     }
   ],

@@ -955,6 +955,12 @@ svg {
   color: var(--color-text);
 }
 
+.app-glyph {
+  width: 56%;
+  height: 56%;
+  color: inherit;
+}
+
 .status {
   display: inline-flex;
   align-items: center;
