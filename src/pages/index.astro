@@ -90,9 +90,13 @@ import { agencyPoints, clientLogos, labPreview, stats, testimonials } from "../d
     <div class="testimonial-grid">
       {testimonials.map((item) => (
         <figure class="testimonial">
-          <blockquote>{item.quote}</blockquote>
+          <blockquote>
+            <span class="testimonial__quote-mark" aria-hidden="true">&ldquo;</span>{item.quote}<span class="testimonial__quote-mark" aria-hidden="true">&rdquo;</span>
+          </blockquote>
           <figcaption>
-            <span aria-hidden="true">&quot;</span>
+            <span class="testimonial__avatar" aria-hidden="true">
+              {item.image ? <img src={item.image} alt="" loading="lazy" decoding="async" /> : <span class="testimonial__mark">&quot;</span>}
+            </span>
             <strong>{item.name}</strong>
             <small>{item.org}</small>
           </figcaption>

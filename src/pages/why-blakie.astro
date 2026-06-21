@@ -5,19 +5,19 @@ const moments = [
   {
     label: "01",
     title: "The day everything changed",
-    caption: "A placeholder for the first photo of Blakie after she was rescued and brought into safety.",
+    caption: "The beginning of Blakie's second chance: a rescue that became a promise to protect what matters.",
     sticker: "/stikers/blakie-code-tag.svg"
   },
   {
     label: "02",
     title: "Meeting Luna and Tom",
-    caption: "A placeholder for the first family photo: Blakie, Luna, and Tom figuring each other out.",
+    caption: "The first chapter of a chosen pack: two dogs, one cat, and a home that made room for all three.",
     sticker: "/stikers/geometric-paw-green.svg"
   },
   {
     label: "03",
     title: "The inseparable trio",
-    caption: "A placeholder for the three of them playing, eating, or sleeping together like they always do.",
+    caption: "The rhythm that stayed: playing, eating, and sleeping side by side like they had always belonged together.",
     sticker: "/stikers/blakie-setting.svg"
   }
 ];
@@ -66,8 +66,8 @@ const pets = [
 
     <section class="story-slider" aria-labelledby="story-gallery-title" data-story-slider>
       <div class="section-heading">
-        <h2 id="story-gallery-title">Family album placeholders.</h2>
-        <p>[ ADD REAL PHOTOS LATER ]</p>
+        <h2 id="story-gallery-title">From rescue to pack.</h2>
+        <p>[ MOMENTS THAT BUILT THE NAME ]</p>
       </div>
 
       <div class="story-slider__viewport">
@@ -76,7 +76,7 @@ const pets = [
             <article class:list={["story-slider__slide", { "is-active": index === 0 }]} data-story-slide aria-hidden={index === 0 ? "false" : "true"}>
               <div class="story-photo">
                 <img src={moment.sticker} alt="" aria-hidden="true" />
-                <span>IMAGE PLACEHOLDER</span>
+                <span>PACK MEMORY</span>
               </div>
               <div class="story-slider__copy">
                 <span>{moment.label}</span>

@@ -980,17 +980,21 @@ svg {
   line-height: 1.4;
 }
 
+.testimonial__quote-mark {
+  color: var(--color-accent);
+}
+
 .testimonial figcaption {
   display: grid;
-  grid-template-columns: 34px 1fr;
-  column-gap: 12px;
+  grid-template-columns: 50px 1fr;
+  column-gap: 14px;
   align-items: center;
 }
 
-.testimonial figcaption span {
+.testimonial__avatar {
   display: flex;
-  width: 34px;
-  height: 34px;
+  width: 50px;
+  height: 50px;
   grid-row: span 2;
   align-items: center;
   justify-content: center;
@@ -998,8 +1002,15 @@ svg {
   border-radius: 50%;
   background: var(--color-accent-soft);
   color: var(--color-accent);
+  overflow: hidden;
   font-family: var(--font-display);
   font-weight: 700;
+}
+
+.testimonial__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .testimonial figcaption strong {
@@ -1239,13 +1250,13 @@ svg {
   text-align: center;
 }
 
-.team-card span {
+.team-card__avatar {
   display: flex;
-  width: 72px;
-  height: 72px;
+  width: 96px;
+  height: 96px;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: 0 auto 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
   background:
@@ -1253,13 +1264,27 @@ svg {
     linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     #161616;
   background-size: 12px 12px;
+  overflow: hidden;
+}
+
+.team-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-card__initial {
   font-family: var(--font-display);
   font-size: 1.75rem;
   font-weight: 700;
 }
 
-.team-card--accent span {
+.team-card--accent .team-card__avatar {
   border-color: var(--color-accent);
+  box-shadow: 0 0 34px rgba(198, 255, 58, 0.16);
+}
+
+.team-card--accent .team-card__initial {
   color: var(--color-accent);
 }
 

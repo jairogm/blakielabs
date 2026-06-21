@@ -223,15 +223,15 @@ export const ethos = [
 ];
 
 export const team = [
-  { initial: "M", name: "Marco Vidal", role: "Founder / Principal Eng", accent: true },
-  { initial: "L", name: "Lena Okafor", role: "Staff Full-Stack" },
-  { initial: "D", name: "Dane Park", role: "Infra and Platform" },
-  { initial: "S", name: "Sofia Cruz", role: "Design Engineer" }
+  { initial: "J", name: "Jhon Garces Montes", role: "Founder & CTO", image: "/team/jhon-garces-montes.webp", imageAlt: "Portrait of Jhon Garces Montes", accent: true },
+  { initial: "L", name: "Lena Okafor", role: "Staff Full-Stack", image: "/team/lena-okafor.webp", imageAlt: "Portrait of Lena Okafor" },
+  { initial: "D", name: "Dane Park", role: "Infra and Platform", image: "/team/dane-park.webp", imageAlt: "Portrait of Dane Park" },
+  { initial: "S", name: "Sofia Cruz", role: "Design Engineer", image: "/team/sofia-cruz.webp", imageAlt: "Portrait of Sofia Cruz" }
 ];
 
 export const testimonials = [
-  { quote: "Blakie shipped in six weeks what our last vendor could not in a year, and the code is immaculate.", name: "VP Engineering", org: "Meridian Freight" },
-  { quote: "They treated our product like their own. Zero hand-holding, all signal, every single week.", name: "CTO", org: "Northwind Capital" }
+  { quote: "Blakie shipped in six weeks what our last vendor could not in a year, and the code is immaculate.", name: "VP Engineering", org: "Meridian Freight", image: "/testimonials/meridian-vp.webp" },
+  { quote: "They treated our product like their own. Zero hand-holding, all signal, every single week.", name: "CTO", org: "Northwind Capital", image: "/testimonials/northwind-cto.webp" }
 ];
 
 export const clientLogos = ["Meridian", "Northwind", "Atlas Health", "Volt", "Halcyon", "Driftwell"];
