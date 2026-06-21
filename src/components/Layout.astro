@@ -92,8 +92,9 @@ const structuredData = {
       <div class="site__grid" aria-hidden="true" transition:name="site-grid" transition:persist></div>
       <div class="site__glow" aria-hidden="true" data-glow transition:name="site-glow" transition:persist></div>
       <div class="site__paw-field" aria-hidden="true" data-paw-field transition:name="site-paws" transition:persist></div>
+      <a class="skip-link" href="#content">Skip to content</a>
       <Nav active={active} />
-      <main>
+      <main id="content" tabindex="-1">
         <slot />
       </main>
       {newsletter && <Newsletter />}
