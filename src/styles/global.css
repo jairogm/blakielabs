@@ -731,8 +731,8 @@ svg {
   right: 13%;
 }
 
-.hero-stack__item--java {
-  --stack-color: #f89820;
+.hero-stack__item--python {
+  --stack-color: #4b8bbe;
   --stack-tilt: 8deg;
   --stack-tilt-end: -7deg;
   --stack-speed: 6.8s;
@@ -740,8 +740,8 @@ svg {
   left: 7%;
 }
 
-.hero-stack__item--html {
-  --stack-color: #e44d26;
+.hero-stack__item--ts {
+  --stack-color: #3178c6;
   --stack-tilt: -5deg;
   --stack-tilt-end: 5deg;
   --stack-speed: 7.8s;
@@ -749,8 +749,8 @@ svg {
   right: 7%;
 }
 
-.hero-stack__item--css {
-  --stack-color: #2965f1;
+.hero-stack__item--sql {
+  --stack-color: #336791;
   --stack-tilt: 5deg;
   --stack-tilt-end: -6deg;
   --stack-speed: 6.5s;
