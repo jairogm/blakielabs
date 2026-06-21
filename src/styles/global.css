@@ -1706,7 +1706,7 @@ svg {
 }
 
 .plan-grid {
-  align-items: start;
+  align-items: stretch;
   margin-bottom: 72px;
 }
 
