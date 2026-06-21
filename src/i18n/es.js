@@ -329,7 +329,7 @@ export default {
     team: [
       { initial: "J", name: "Jhon Garces Montes", role: "Fundador y CTO", image: "/team/jhon-garces-montes.webp", imageAlt: "Retrato de Jhon Garces Montes", accent: true },
       { initial: "L", name: "Lena Okafor", role: "Staff Full-Stack", image: "/team/lena-okafor.webp", imageAlt: "Retrato de Lena Okafor" },
-      { initial: "D", name: "Dane Park", role: "Infra y Plataforma", image: "/team/dane-park.webp", imageAlt: "Retrato de Dane Park" },
+      { initial: "E", name: "Edwin Barraza", role: "Especialista Full-Cycle en Ventas B2B", image: "/team/edwin-barraza.webp", imageAlt: "Retrato de Edwin Barraza" },
       { initial: "S", name: "Sofia Cruz", role: "Ingeniera de Diseño", image: "/team/sofia-cruz.webp", imageAlt: "Retrato de Sofia Cruz" }
     ]
   },
