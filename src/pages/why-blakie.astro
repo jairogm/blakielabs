@@ -6,19 +6,25 @@ const moments = [
     label: "01",
     title: "The day everything changed",
     caption: "The beginning of Blakie's second chance: a rescue that became a promise to protect what matters.",
-    sticker: "/stikers/blakie-code-tag.svg"
+    sticker: "/stikers/blakie-code-tag.svg",
+    stickerWidth: 218,
+    stickerHeight: 155
   },
   {
     label: "02",
     title: "Meeting Luna and Tom",
     caption: "The first chapter of a chosen pack: two dogs, one cat, and a home that made room for all three.",
-    sticker: "/stikers/geometric-paw-green.svg"
+    sticker: "/stikers/geometric-paw-green.svg",
+    stickerWidth: 294,
+    stickerHeight: 294
   },
   {
     label: "03",
     title: "The inseparable trio",
     caption: "The rhythm that stayed: playing, eating, and sleeping side by side like they had always belonged together.",
-    sticker: "/stikers/blakie-setting.svg"
+    sticker: "/stikers/blakie-exe.svg",
+    stickerWidth: 311,
+    stickerHeight: 100
   }
 ];
 
@@ -58,9 +64,9 @@ const pets = [
       </article>
 
       <aside class="story-sticker-wall" aria-label="Blakie Labs sticker wall">
-        <img src="/stikers/blakie-gears.svg" alt="Blakie gears sticker" />
-        <img src="/stikers/blakie-setting.svg" alt="Blakie settings sticker" />
-        <img src="/stikers/geometric-paw.svg" alt="Black paw sticker" />
+        <img src="/stikers/blakie-gears.svg" alt="Blakie gears sticker" width="162" height="169" loading="lazy" decoding="async" />
+        <img src="/stikers/blakie-exe.svg" alt="Blakie executable sticker" width="311" height="100" loading="lazy" decoding="async" />
+        <img src="/stikers/geometric-paw.svg" alt="Black paw sticker" width="204" height="231" loading="lazy" decoding="async" />
       </aside>
     </div>
 
@@ -75,7 +81,7 @@ const pets = [
           {moments.map((moment, index) => (
             <article class:list={["story-slider__slide", { "is-active": index === 0 }]} data-story-slide aria-hidden={index === 0 ? "false" : "true"}>
               <div class="story-photo">
-                <img src={moment.sticker} alt="" aria-hidden="true" />
+                <img src={moment.sticker} alt="" width={moment.stickerWidth} height={moment.stickerHeight} loading="lazy" decoding="async" aria-hidden="true" />
                 <span>PACK MEMORY</span>
               </div>
               <div class="story-slider__copy">
@@ -116,7 +122,7 @@ const pets = [
     </div>
 
     <div class="story-closing">
-      <img src="/stikers/buil-with-teeth-4.svg" alt="" aria-hidden="true" />
+      <img src="/stikers/buil-with-teeth-4.svg" alt="" width="425" height="170" loading="lazy" decoding="async" aria-hidden="true" />
       <p>That is the spirit behind the name: a small pack, fiercely loyal, building things with care and bite.</p>
       <a class="button button--primary button--small" href="/contact/">Send us a brief →</a>
     </div>

@@ -42,6 +42,7 @@
   function openMenu() {
     const { menu, toggle, close } = getMenu();
     if (!menu || !toggle) return;
+    lastFocusedElement = document.activeElement;
     menu.hidden = false;
     document.body.classList.add("is-locked");
     toggle.setAttribute("aria-expanded", "true");
@@ -54,7 +55,10 @@
     menu.hidden = true;
     document.body.classList.remove("is-locked");
     toggle.setAttribute("aria-expanded", "false");
-    if (shouldRestoreFocus) toggle.focus();
+    if (shouldRestoreFocus) {
+      if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+      else toggle.focus();
+    }
   }
 
   function pawWalk({ startX, startY, dx, dy, count, size, color }) {
@@ -103,6 +107,26 @@
       panel.classList.toggle("is-active", active);
       panel.hidden = !active;
     });
+  }
+
+  function moveTabFocus(currentTab, key) {
+    const tablist = currentTab.closest("[role='tablist']");
+    if (!tablist) return false;
+    const tabs = Array.from(tablist.querySelectorAll("[role='tab']"));
+    const currentIndex = tabs.indexOf(currentTab);
+    if (currentIndex < 0) return false;
+
+    let nextIndex = currentIndex;
+    if (key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+    else if (key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    else if (key === "Home") nextIndex = 0;
+    else if (key === "End") nextIndex = tabs.length - 1;
+    else return false;
+
+    const nextTab = tabs[nextIndex];
+    activateTab(nextTab.getAttribute("data-tab-target"));
+    nextTab.focus();
+    return true;
   }
 
   function setStorySlide(slider, index) {
@@ -376,6 +400,12 @@
     const modal = document.querySelector("[data-product-modal]");
     const dialog = modal?.querySelector(".modal__dialog");
     const { menu } = getMenu();
+    const currentTab = event.target instanceof Element ? event.target.closest("[role='tab']") : null;
+
+    if (currentTab && moveTabFocus(currentTab, event.key)) {
+      event.preventDefault();
+      return;
+    }
 
     if (event.key === "Escape") {
       if (modal && !modal.hidden) closeProductModal();
@@ -384,6 +414,20 @@
 
     if (event.key === "Tab" && modal && !modal.hidden && dialog) {
       const focusable = Array.from(dialog.querySelectorAll(focusableSelector));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    if (event.key === "Tab" && menu && !menu.hidden) {
+      const focusable = Array.from(menu.querySelectorAll(focusableSelector));
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
