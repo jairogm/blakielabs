@@ -29,10 +29,16 @@ const products = t.products;
             </div>
             <h2>{client.name}</h2>
             <p>{client.desc}</p>
-            <div class="case-card__metrics">
-              <span><strong>{client.metric}</strong>{client.metricLabel}</span>
-              <span><strong>{client.metric2}</strong>{client.metric2Label}</span>
-            </div>
+            {client.points ? (
+              <ul class="case-card__list">
+                {client.points.map((point) => <li>{point}</li>)}
+              </ul>
+            ) : (
+              <div class="case-card__metrics">
+                <span><strong>{client.metric}</strong>{client.metricLabel}</span>
+                <span><strong>{client.metric2}</strong>{client.metric2Label}</span>
+              </div>
+            )}
           </article>
         ))}
       </div>

@@ -7,12 +7,12 @@ export default {
     home: {
       title: "Blakie Labs | Senior Software Studio and Product Lab",
       description:
-        "Blakie Labs builds high-performance software for clients and incubates sharp digital products with a senior-only engineering team."
+        "Blakie Labs builds senior-led software systems, incubates early lab products, and opens a small number of founding client slots."
     },
     work: {
       title: "Work | Blakie Labs",
       description:
-        "Explore Blakie Labs client systems and product work, from event-driven platforms to privacy-first apps and realtime dashboards."
+        "Explore Blakie Labs system concepts and early lab products, from event-driven platforms to privacy-first apps and founder tools."
     },
     about: {
       title: "About | Blakie Labs",
@@ -69,7 +69,7 @@ export default {
     titleLead: "We build software that ",
     titleAccent: "bites.",
     intro:
-      "Blakie Labs is a dual-engine digital studio. We ship high-performance software for global clients and incubate our own suite of digital applications.",
+      "Blakie Labs is a new senior-led software studio and product lab. We build serious systems for founding clients while incubating our own suite of digital products.",
     ctaPrimary: "Hire the Lab",
     ctaPrimaryNote: "[Retainer Plans]",
     ctaGhost: "Explore Our Apps →",
@@ -80,7 +80,7 @@ export default {
     agency: {
       kicker: "01 - THE AGENCY",
       title: "Dedicated velocity, on retainer.",
-      body: "High-end monthly engineering retainers. Full-stack architecture, rapid MVPs, and a senior pack shipping production code on your roadmap.",
+      body: "Monthly engineering retainers for founding clients. Full-stack architecture, rapid MVPs, and a senior-led pack shipping production code on your roadmap.",
       points: [
         "Senior-only engineering pack",
         "Full-stack architecture and infra",
@@ -96,87 +96,66 @@ export default {
       link: "Browse all products"
     },
     labPreview: [
-      { slug: "shipbite", name: "Shipbite", initial: "S", status: "Private Beta", statusClass: "beta", iconClass: "accent" },
+      { slug: "shipbite", name: "Shipbite", initial: "S", status: "In Development", statusClass: "incubator", iconClass: "accent" },
       { slug: "tracewell", name: "Tracewell", initial: "T", status: "Prototype", statusClass: "incubator", iconClass: "quiet" },
-      { slug: "kennel", name: "Kennel", initial: "K", status: "Live Demo", statusClass: "live", iconClass: "quiet" },
-      { slug: "packdesk", name: "Packdesk", initial: "P", status: "Alpha", statusClass: "beta", iconClass: "accent" }
+      { slug: "kennel", name: "Kennel", initial: "K", status: "Internal Tool", statusClass: "beta", iconClass: "quiet" },
+      { slug: "packdesk", name: "Packdesk", initial: "P", status: "In Development", statusClass: "incubator", iconClass: "accent" }
     ],
     stats: [
       { num: "6", label: "PRODUCTS IN THE LAB" },
-      { num: "12+", label: "CLIENT SYSTEMS" },
+      { num: "0", label: "FAKE LOGOS" },
       { num: "24h", label: "BRIEF RESPONSE" },
-      { num: "100%", label: "SENIOR ENGINEERS" }
+      { num: "2", label: "FOUNDING SLOTS" }
     ],
     proof: {
-      kicker: "TRUSTED BY TEAMS THAT SHIP",
-      logosAria: "Client logos",
-      clientLogos: ["CargoNest", "Northstar", "CuraGrid", "Voltway", "Fieldkit", "BrightOps"]
-    },
-    // Fictional demo testimonials for the university presentation.
-    testimonials: [
-      {
-        quote: "Blakie turned a messy dispatch idea into a product demo that felt production-ready in weeks.",
-        name: "VP Engineering",
-        org: "CargoNest Logistics",
-        image: "/testimonials/meridian-vp.webp"
-      },
-      {
-        quote: "The architecture, handoff, and product thinking felt like a senior team had been embedded with us from day one.",
-        name: "CTO",
-        org: "Northstar Capital",
-        image: "/testimonials/northwind-cto.webp"
-      }
-    ]
+      kicker: "PROOF OF WORK, NOT BORROWED TRUST",
+      label: "FOUNDER NOTE",
+      title: "New studio. Real builders.",
+      body: "Blakie Labs is early as a studio, so we are not filling the page with fictional client logos or borrowed testimonials. The proof here is the work: lab products in progress, founder-built systems, system concepts, and the way we communicate before, during, and after the build.",
+      note: "We are opening a small number of founding client slots. If we earn your trust, it will be through the software we design, ship, and own with you.",
+      points: [
+        { title: "No fake logos", body: "When client proof appears here, it will be real, permissioned, and referenceable." },
+        { title: "Lab products in progress", body: "Our product ideas are labeled honestly: prototype, incubating, internal tool, or in development." },
+        { title: "Founding client slots", body: "Early partners get direct access to the core team and help shape the studio's operating rhythm." }
+      ]
+    }
   },
 
   work: {
-    kicker: "// PORTFOLIO AND PRODUCTS",
+    kicker: "// PROOF OF WORK",
     title: "The Work.",
     tablistAria: "Work views",
-    tabClients: "Client Systems",
-    tabProducts: "Our Products",
-    viewCaseStudy: "View case study",
-    // Fictional demo clients for the university presentation.
+    tabClients: "System Concepts",
+    tabProducts: "Lab Products",
+    viewCaseStudy: "View build notes",
     clients: [
       {
-        name: "CargoNest Logistics",
-        sector: "LOGISTICS",
-        tag: "Control Tower",
-        desc: "Designed an event-driven dispatch console that turns shipment chaos into live operational state.",
-        metric: "3.8x",
-        metricLabel: "faster planning",
-        metric2: "-54%",
-        metric2Label: "manual updates"
+        name: "Dispatch Control Tower",
+        sector: "SYSTEM CONCEPT",
+        tag: "Logistics Ops",
+        desc: "A reference architecture for live shipment state, queue pressure, operator workflows, and event-driven dispatch decisions.",
+        points: ["Event-driven state model", "Realtime operations console"]
       },
       {
-        name: "Northstar Capital",
-        sector: "FINTECH",
-        tag: "Realtime",
-        desc: "Modeled a realtime portfolio cockpit with streaming positions, risk bands, and audit-friendly event history.",
-        metric: "<100ms",
-        metricLabel: "state refresh",
-        metric2: "99.99%",
-        metric2Label: "target uptime"
+        name: "Founder Analytics Stack",
+        sector: "SYSTEM CONCEPT",
+        tag: "Product Signal",
+        desc: "A privacy-aware analytics starter for activation, retention, release impact, and founder-level product decisions.",
+        points: ["Cookieless event model", "Activation and retention views"]
       },
       {
-        name: "CuraGrid Clinics",
-        sector: "HEALTHCARE",
-        tag: "Patient Flow",
-        desc: "Mapped a secure intake and triage portal that routes patients, notes, and follow-ups without spreadsheet drift.",
-        metric: "42%",
-        metricLabel: "less admin time",
-        metric2: "0",
-        metric2Label: "lost handoffs"
+        name: "Client Delivery Portal",
+        sector: "SYSTEM CONCEPT",
+        tag: "Retainers",
+        desc: "A Packdesk-style workspace for briefs, approvals, decision logs, roadmap visibility, and weekly delivery receipts.",
+        points: ["Briefs and approvals", "Roadmap and delivery receipts"]
       },
       {
-        name: "Voltway Mobility",
-        sector: "MOBILITY",
-        tag: "Fleet Ops",
-        desc: "Prototyped an EV charging operations layer for station health, queue pressure, and field technician routing.",
-        metric: "18k",
-        metricLabel: "stations modeled",
-        metric2: "31",
-        metric2Label: "regions planned"
+        name: "AI Release Engine",
+        sector: "SYSTEM CONCEPT",
+        tag: "Launch Ops",
+        desc: "A Shipbite-style pipeline that turns PRs, tickets, and roadmap changes into customer-ready release communication.",
+        points: ["PR and ticket ingestion", "Release notes and changelog publishing"]
       }
     ]
   },
@@ -186,8 +165,8 @@ export default {
       slug: "shipbite",
       name: "Shipbite",
       initial: "S",
-      status: "Private Beta",
-      statusClass: "beta",
+      status: "In Development",
+      statusClass: "incubator",
       iconClass: "accent",
       desc: "AI release notes and changelogs that turn messy commits into customer-ready product updates.",
       cta: "View prototype",
@@ -226,8 +205,8 @@ export default {
       slug: "kennel",
       name: "Kennel",
       initial: "K",
-      status: "Live Demo",
-      statusClass: "live",
+      status: "Internal Tool",
+      statusClass: "beta",
       iconClass: "quiet",
       desc: "A command center for indie builders running too many apps across too many providers.",
       cta: "Open demo",
@@ -246,7 +225,7 @@ export default {
       slug: "sniff",
       name: "Sniff",
       initial: "S",
-      status: "In Design",
+      status: "Concept",
       statusClass: "incubator",
       iconClass: "accent",
       desc: "Privacy-first product analytics for founders who want signal without surveillance.",
@@ -286,8 +265,8 @@ export default {
       slug: "packdesk",
       name: "Packdesk",
       initial: "P",
-      status: "Alpha",
-      statusClass: "beta",
+      status: "In Development",
+      statusClass: "incubator",
       iconClass: "quiet",
       desc: "A client portal for senior retainers: briefs, approvals, roadmap, velocity, and delivery receipts.",
       cta: "View alpha",
@@ -316,7 +295,7 @@ export default {
     kicker: "// THE MANIFEST",
     title: "Legendary code, or nothing at all.",
     lead1: "We are a small pack of senior engineers who refuse to ship mediocre work. Extreme quality, ruthless agility, and a standing habit of moving out of the comfort zone to build things that outlast their hype cycle.",
-    lead2: "No bloated teams. No hand-offs to junior devs. The people you talk to are the people writing the code.",
+    lead2: "No bloated teams. No black-box handoffs. The people you talk to are close to the work and accountable for the outcome.",
     ethos: [
       { num: "A1", title: "Extreme quality", body: "We sweat the edge cases nobody sees until they break in production." },
       { num: "A2", title: "Ruthless agility", body: "Small team, no bureaucracy. We move at the speed of a decision." },

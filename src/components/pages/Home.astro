@@ -85,23 +85,22 @@ const home = t.home;
 
   <section class="section proof" aria-labelledby="proof-title">
     <p class="proof__kicker" id="proof-title">{home.proof.kicker}</p>
-    <div class="proof__logos" aria-label={home.proof.logosAria}>
-      {home.proof.clientLogos.map((logo) => <span>{logo}</span>)}
+    <div class="founder-note">
+      <div class="founder-note__heading">
+        <p>{home.proof.label}</p>
+        <h2>{home.proof.title}</h2>
+      </div>
+      <div class="founder-note__copy">
+        <p>{home.proof.body}</p>
+        <p>{home.proof.note}</p>
+      </div>
     </div>
-    <div class="testimonial-grid">
-      {home.testimonials.map((item) => (
-        <figure class="testimonial">
-          <blockquote>
-            <span class="testimonial__quote-mark" aria-hidden="true">&ldquo;</span>{item.quote}<span class="testimonial__quote-mark" aria-hidden="true">&rdquo;</span>
-          </blockquote>
-          <figcaption>
-            <span class="testimonial__avatar" aria-hidden="true">
-              {item.image ? <img src={item.image} alt="" width="720" height="720" loading="lazy" decoding="async" /> : <span class="testimonial__mark">&quot;</span>}
-            </span>
-            <strong>{item.name}</strong>
-            <small>{item.org}</small>
-          </figcaption>
-        </figure>
+    <div class="proof-principles">
+      {home.proof.points.map((item) => (
+        <article>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
       ))}
     </div>
   </section>

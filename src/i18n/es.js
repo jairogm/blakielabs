@@ -7,12 +7,12 @@ export default {
     home: {
       title: "Blakie Labs | Estudio de software senior y laboratorio de productos",
       description:
-        "Blakie Labs construye software de alto rendimiento para clientes e incuba productos digitales afilados con un equipo de ingeniería 100% senior."
+        "Blakie Labs construye sistemas de software con liderazgo senior, incuba productos propios y abre pocos cupos para clientes fundadores."
     },
     work: {
       title: "Trabajo | Blakie Labs",
       description:
-        "Explora los sistemas para clientes y los productos de Blakie Labs: desde plataformas orientadas a eventos hasta apps que priorizan la privacidad y dashboards en tiempo real."
+        "Explora conceptos de sistemas y productos tempranos de Blakie Labs: desde plataformas orientadas a eventos hasta apps de privacidad y herramientas para founders."
     },
     about: {
       title: "Nosotros | Blakie Labs",
@@ -69,7 +69,7 @@ export default {
     titleLead: "Construimos software que ",
     titleAccent: "muerde.",
     intro:
-      "Blakie Labs es un estudio digital de doble motor. Entregamos software de alto rendimiento para clientes globales e incubamos nuestra propia suite de aplicaciones digitales.",
+      "Blakie Labs es un nuevo estudio de software senior y laboratorio de productos. Construimos sistemas serios para clientes fundadores mientras incubamos nuestra propia suite de productos digitales.",
     ctaPrimary: "Contrata al Lab",
     ctaPrimaryNote: "[Planes de retainer]",
     ctaGhost: "Explora nuestras apps →",
@@ -80,7 +80,7 @@ export default {
     agency: {
       kicker: "01 - LA AGENCIA",
       title: "Velocidad dedicada, en retainer.",
-      body: "Retainers de ingeniería premium, mes a mes. Arquitectura full-stack, MVPs rápidos y una manada senior enviando código de producción sobre tu roadmap.",
+      body: "Retainers mensuales de ingeniería para clientes fundadores. Arquitectura full-stack, MVPs rápidos y una manada con liderazgo senior enviando código de producción sobre tu roadmap.",
       points: [
         "Manada de ingeniería 100% senior",
         "Arquitectura full-stack e infra",
@@ -96,87 +96,66 @@ export default {
       link: "Ver todos los productos"
     },
     labPreview: [
-      { slug: "shipbite", name: "Shipbite", initial: "S", status: "Beta privada", statusClass: "beta", iconClass: "accent" },
+      { slug: "shipbite", name: "Shipbite", initial: "S", status: "En desarrollo", statusClass: "incubator", iconClass: "accent" },
       { slug: "tracewell", name: "Tracewell", initial: "T", status: "Prototipo", statusClass: "incubator", iconClass: "quiet" },
-      { slug: "kennel", name: "Kennel", initial: "K", status: "Demo en vivo", statusClass: "live", iconClass: "quiet" },
-      { slug: "packdesk", name: "Packdesk", initial: "P", status: "Alfa", statusClass: "beta", iconClass: "accent" }
+      { slug: "kennel", name: "Kennel", initial: "K", status: "Herramienta interna", statusClass: "beta", iconClass: "quiet" },
+      { slug: "packdesk", name: "Packdesk", initial: "P", status: "En desarrollo", statusClass: "incubator", iconClass: "accent" }
     ],
     stats: [
       { num: "6", label: "PRODUCTOS EN EL LAB" },
-      { num: "12+", label: "SISTEMAS DE CLIENTES" },
+      { num: "0", label: "LOGOS FALSOS" },
       { num: "24h", label: "RESPUESTA AL BRIEF" },
-      { num: "100%", label: "INGENIEROS SENIOR" }
+      { num: "2", label: "CUPOS FUNDADORES" }
     ],
     proof: {
-      kicker: "LO USAN EQUIPOS QUE SÍ ENVÍAN",
-      logosAria: "Logos de clientes",
-      clientLogos: ["CargoNest", "Northstar", "CuraGrid", "Voltway", "Fieldkit", "BrightOps"]
-    },
-    // Testimonios ficticios para la presentación universitaria.
-    testimonials: [
-      {
-        quote: "Blakie convirtió una idea de despacho desordenada en una demo de producto que se sintió lista para producción en semanas.",
-        name: "VP de Ingeniería",
-        org: "CargoNest Logistics",
-        image: "/testimonials/meridian-vp.webp"
-      },
-      {
-        quote: "La arquitectura, el handoff y el criterio de producto se sintieron como si hubiéramos tenido un equipo senior integrado desde el primer día.",
-        name: "CTO",
-        org: "Northstar Capital",
-        image: "/testimonials/northwind-cto.webp"
-      }
-    ]
+      kicker: "PRUEBA DE TRABAJO, NO CONFIANZA PRESTADA",
+      label: "NOTA DEL FOUNDER",
+      title: "Estudio nuevo. Builders reales.",
+      body: "Blakie Labs está temprano como estudio, así que no vamos a llenar la página con logos ficticios ni testimonios prestados. La prueba aquí es el trabajo: productos del lab en progreso, sistemas construidos por el founder, conceptos de arquitectura y la forma en que comunicamos antes, durante y después del build.",
+      note: "Estamos abriendo pocos cupos para clientes fundadores. Si ganamos tu confianza, será por el software que diseñamos, enviamos y cuidamos contigo.",
+      points: [
+        { title: "Sin logos falsos", body: "Cuando aparezca prueba de clientes aquí, será real, autorizada y referenciable." },
+        { title: "Productos del lab en progreso", body: "Las ideas del producto se etiquetan con honestidad: prototipo, incubando, herramienta interna o en desarrollo." },
+        { title: "Cupos fundadores", body: "Los primeros partners tienen acceso directo al equipo core y ayudan a dar forma al ritmo operativo del estudio." }
+      ]
+    }
   },
 
   work: {
-    kicker: "// PORTAFOLIO Y PRODUCTOS",
+    kicker: "// PRUEBA DE TRABAJO",
     title: "El trabajo.",
     tablistAria: "Vistas de trabajo",
-    tabClients: "Sistemas de clientes",
-    tabProducts: "Nuestros productos",
-    viewCaseStudy: "Ver caso de estudio",
-    // Clientes ficticios para la presentación universitaria.
+    tabClients: "Conceptos de sistemas",
+    tabProducts: "Productos del lab",
+    viewCaseStudy: "Ver notas del build",
     clients: [
       {
-        name: "CargoNest Logistics",
-        sector: "LOGÍSTICA",
-        tag: "Torre de control",
-        desc: "Diseñamos una consola de despacho orientada a eventos que convierte el caos de envíos en estado operativo en vivo.",
-        metric: "3.8x",
-        metricLabel: "planificación más rápida",
-        metric2: "-54%",
-        metric2Label: "actualizaciones manuales"
+        name: "Torre de control logística",
+        sector: "CONCEPTO DE SISTEMA",
+        tag: "Ops logística",
+        desc: "Una arquitectura de referencia para estado de envíos en vivo, presión de colas, flujos de operadores y decisiones de despacho orientadas a eventos.",
+        points: ["Modelo de estado por eventos", "Consola operativa en tiempo real"]
       },
       {
-        name: "Northstar Capital",
-        sector: "FINTECH",
-        tag: "Tiempo real",
-        desc: "Modelamos un cockpit de portafolio en tiempo real con posiciones en streaming, bandas de riesgo e historial de eventos auditable.",
-        metric: "<100ms",
-        metricLabel: "actualización de estado",
-        metric2: "99.99%",
-        metric2Label: "uptime objetivo"
+        name: "Stack de analítica para founders",
+        sector: "CONCEPTO DE SISTEMA",
+        tag: "Señal de producto",
+        desc: "Un starter de analítica privacy-aware para activación, retención, impacto de releases y decisiones de producto a nivel founder.",
+        points: ["Modelo de eventos sin cookies", "Vistas de activación y retención"]
       },
       {
-        name: "CuraGrid Clinics",
-        sector: "SALUD",
-        tag: "Flujo de pacientes",
-        desc: "Mapeamos un portal seguro de intake y triage que enruta pacientes, notas y seguimientos sin deriva de hojas de cálculo.",
-        metric: "42%",
-        metricLabel: "menos tiempo administrativo",
-        metric2: "0",
-        metric2Label: "handoffs perdidos"
+        name: "Portal de entrega para clientes",
+        sector: "CONCEPTO DE SISTEMA",
+        tag: "Retainers",
+        desc: "Un espacio estilo Packdesk para briefs, aprobaciones, decision logs, visibilidad de roadmap y recibos semanales de entrega.",
+        points: ["Briefs y aprobaciones", "Roadmap y recibos de entrega"]
       },
       {
-        name: "Voltway Mobility",
-        sector: "MOVILIDAD",
-        tag: "Operación de flotas",
-        desc: "Prototipamos una capa operativa para carga EV con salud de estaciones, presión de filas y rutas para técnicos de campo.",
-        metric: "18k",
-        metricLabel: "estaciones modeladas",
-        metric2: "31",
-        metric2Label: "regiones planificadas"
+        name: "Motor de releases con IA",
+        sector: "CONCEPTO DE SISTEMA",
+        tag: "Launch ops",
+        desc: "Un pipeline estilo Shipbite que convierte PRs, tickets y cambios de roadmap en comunicación de releases lista para clientes.",
+        points: ["Ingesta de PRs y tickets", "Release notes y changelog"]
       }
     ]
   },
@@ -186,8 +165,8 @@ export default {
       slug: "shipbite",
       name: "Shipbite",
       initial: "S",
-      status: "Beta privada",
-      statusClass: "beta",
+      status: "En desarrollo",
+      statusClass: "incubator",
       iconClass: "accent",
       desc: "Release notes y changelogs con IA que convierten commits desordenados en updates listos para clientes.",
       cta: "Ver prototipo",
@@ -226,8 +205,8 @@ export default {
       slug: "kennel",
       name: "Kennel",
       initial: "K",
-      status: "Demo en vivo",
-      statusClass: "live",
+      status: "Herramienta interna",
+      statusClass: "beta",
       iconClass: "quiet",
       desc: "Un centro de comando para builders indie que tienen demasiadas apps en demasiados proveedores.",
       cta: "Abrir demo",
@@ -246,7 +225,7 @@ export default {
       slug: "sniff",
       name: "Sniff",
       initial: "S",
-      status: "En diseño",
+      status: "Concepto",
       statusClass: "incubator",
       iconClass: "accent",
       desc: "Analítica de producto privacy-first para founders que quieren señal sin vigilancia.",
@@ -286,8 +265,8 @@ export default {
       slug: "packdesk",
       name: "Packdesk",
       initial: "P",
-      status: "Alfa",
-      statusClass: "beta",
+      status: "En desarrollo",
+      statusClass: "incubator",
       iconClass: "quiet",
       desc: "Un portal para retainers senior: briefs, aprobaciones, roadmap, velocidad y recibos de entrega.",
       cta: "Ver alfa",
@@ -316,7 +295,7 @@ export default {
     kicker: "// EL MANIFIESTO",
     title: "Código legendario, o nada.",
     lead1: "Somos una pequeña manada de ingenieros senior que se niega a entregar trabajo mediocre. Calidad extrema, agilidad sin piedad y la costumbre constante de salir de la zona de confort para construir cosas que sobreviven a su ciclo de hype.",
-    lead2: "Sin equipos inflados. Sin pasarle el trabajo a juniors. Las personas con las que hablas son las que escriben el código.",
+    lead2: "Sin equipos inflados. Sin handoffs de caja negra. Las personas con las que hablas están cerca del trabajo y responden por el resultado.",
     ethos: [
       { num: "A1", title: "Calidad extrema", body: "Sudamos los casos límite que nadie ve hasta que revientan en producción." },
       { num: "A2", title: "Agilidad sin piedad", body: "Equipo pequeño, sin burocracia. Nos movemos a la velocidad de una decisión." },

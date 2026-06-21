@@ -1024,20 +1024,76 @@ svg {
   text-align: center;
 }
 
-.proof__logos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 14px 48px;
-  margin: 26px 0 56px;
+.founder-note {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) 1fr;
+  gap: 36px;
+  align-items: start;
+  margin-top: 26px;
+  padding: 38px;
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.055), transparent 48%),
+    radial-gradient(circle at 18% 18%, rgba(198, 255, 58, 0.12), transparent 34%),
+    #0c0c0c;
 }
 
-.proof__logos span {
-  color: rgba(255, 255, 255, 0.32);
+.founder-note__heading p {
+  margin: 0 0 14px;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.founder-note__heading h2 {
+  max-width: 12ch;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1.375rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 600;
+  line-height: 0.96;
+}
+
+.founder-note__copy {
+  display: grid;
+  gap: 18px;
+}
+
+.founder-note__copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.proof-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.proof-principles article {
+  padding: 22px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.proof-principles h3 {
+  margin: 0 0 10px;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.1;
+}
+
+.proof-principles p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 
 .testimonial {
@@ -1189,6 +1245,34 @@ svg {
   font-family: var(--font-display);
   font-size: 1.625rem;
   line-height: 1;
+}
+
+.case-card__list {
+  display: grid;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  list-style: none;
+}
+
+.case-card__list li {
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  color: var(--color-soft);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.case-card__list li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 16px rgba(198, 255, 58, 0.36);
 }
 
 .product-grid,
@@ -2346,7 +2430,12 @@ svg {
   }
 
   .story-grid,
+  .founder-note,
   .story-closing {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-principles {
     grid-template-columns: 1fr;
   }
 
@@ -2431,6 +2520,8 @@ svg {
 
   .panel--large,
   .testimonial,
+  .founder-note,
+  .proof-principles article,
   .case-card,
   .product-card,
   .plan-card,
