@@ -1,0 +1,74 @@
+---
+import Layout from "../components/Layout.astro";
+import { faqs, howItWorks, plans } from "../data/site";
+---
+
+<Layout
+  active="plans"
+  title="Retainer Plans | Blakie Labs"
+  description="Reserve a Blakie Labs senior engineering slot for full-stack architecture, rapid MVP builds, and production software delivery."
+  canonicalPath="/plans/"
+>
+  <section class="section plans page-section" aria-labelledby="plans-title">
+    <p class="section-kicker">// RETAINER PLANS</p>
+    <div class="plans__intro">
+      <div>
+        <h1 class="page-heading" id="plans-title">Reserve a pack slot.</h1>
+        <p>Senior engineering on tap, billed monthly. No SOWs, no change orders, just velocity. Pause or scale anytime.</p>
+      </div>
+      <span class="availability"><i></i>2 slots open / Q3 2026</span>
+    </div>
+
+    <div class="plan-grid">
+      {plans.map((plan) => (
+        <article class={`plan-card ${plan.popular ? "plan-card--popular" : ""}`}>
+          {plan.popular && <span class="plan-card__badge">MOST POPULAR</span>}
+          <p>{plan.tagline}</p>
+          <h2>{plan.name}</h2>
+          <div class="plan-card__price">
+            <strong>{plan.price}</strong>
+            {plan.period && <span>{plan.period}</span>}
+          </div>
+          <ul class="check-list">
+            {plan.features.map((feature) => <li>{feature}</li>)}
+          </ul>
+          <a class={`button ${plan.popular ? "button--primary" : "button--ghost"}`} href="/contact/?type=retainer">Claim this slot →</a>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-heading">
+      <h2>How the retainer works.</h2>
+      <p>[ NO BLACK BOX ]</p>
+    </div>
+    <div class="steps-grid">
+      {howItWorks.map((step) => (
+        <article class="step-card">
+          <span>{step.num}</span>
+          <h2>{step.title}</h2>
+          <p>{step.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-heading section-heading--spaced">
+      <h2>Retainer FAQ.</h2>
+      <p>[ THE FINE PRINT ]</p>
+    </div>
+    <div class="faq">
+      {faqs.map((item, index) => (
+        <article class="faq__item" data-faq-item>
+          <h3>
+            <button class="faq__question" type="button" aria-expanded="false" aria-controls={`faq-answer-${index}`} data-faq-toggle>
+              <span>{item.q}</span>
+              <i aria-hidden="true">+</i>
+            </button>
+          </h3>
+          <div class="faq__answer" id={`faq-answer-${index}`} data-faq-answer>
+            <p>{item.a}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

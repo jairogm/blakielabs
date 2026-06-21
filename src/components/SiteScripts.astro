@@ -1,0 +1,435 @@
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const focusableSelector = [
+    "a[href]",
+    "button:not([disabled])",
+    "textarea:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+  ].join(",");
+  const pawSvg = '<svg viewBox="0 0 32 32" width="100%" height="100%" fill="currentColor"><ellipse cx="16" cy="21" rx="7.5" ry="6.5"/><circle cx="7.5" cy="13.5" r="2.7"/><circle cx="13.5" cy="9" r="2.9"/><circle cx="20.5" cy="9" r="2.9"/><circle cx="24.5" cy="13.5" r="2.7"/></svg>';
+  const messages = {
+    valueMissing: {
+      name: "Tell us your name.",
+      company: "Add your company name.",
+      email: "Add your email address.",
+      brief: "Give us a little context first.",
+      newsletterEmail: "Add your email address."
+    },
+    typeMismatch: {
+      email: "Use a valid email address.",
+      newsletterEmail: "Use a valid email address."
+    },
+    tooShort: {
+      brief: "Give us at least 12 characters so we have something to work with."
+    }
+  };
+
+  let lastFocusedElement = null;
+  let keyBuffer = "";
+
+  function getMenu() {
+    return {
+      menu: document.querySelector("[data-mobile-menu]"),
+      toggle: document.querySelector("[data-menu-toggle]"),
+      close: document.querySelector("[data-menu-close]")
+    };
+  }
+
+  function openMenu() {
+    const { menu, toggle, close } = getMenu();
+    if (!menu || !toggle) return;
+    menu.hidden = false;
+    document.body.classList.add("is-locked");
+    toggle.setAttribute("aria-expanded", "true");
+    close?.focus();
+  }
+
+  function closeMenu(shouldRestoreFocus = true) {
+    const { menu, toggle } = getMenu();
+    if (!menu || !toggle) return;
+    menu.hidden = true;
+    document.body.classList.remove("is-locked");
+    toggle.setAttribute("aria-expanded", "false");
+    if (shouldRestoreFocus) toggle.focus();
+  }
+
+  function pawWalk({ startX, startY, dx, dy, count, size, color }) {
+    const pawField = document.querySelector("[data-paw-field]");
+    if (!pawField || prefersReducedMotion) return;
+    const deg = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+    const pr = deg * Math.PI / 180;
+    for (let index = 0; index < count; index += 1) {
+      const side = index % 2 === 0 ? 1 : -1;
+      const el = document.createElement("div");
+      el.className = "paw";
+      el.style.left = `${startX + dx * index + Math.cos(pr) * side * size * 0.5}px`;
+      el.style.top = `${startY + dy * index + Math.sin(pr) * side * size * 0.5}px`;
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+      el.style.color = color;
+      el.style.setProperty("--paw-rotation", `rotate(${deg}deg)`);
+      el.style.animationDelay = `${index * 95}ms`;
+      el.innerHTML = pawSvg;
+      pawField.appendChild(el);
+      window.setTimeout(() => el.remove(), 1700 + index * 95);
+    }
+  }
+
+  function playLogoPaws(logoLink) {
+    const rect = logoLink.getBoundingClientRect();
+    pawWalk({
+      startX: Math.max(20, rect.left + 18),
+      startY: Math.max(28, rect.top + rect.height / 2),
+      dx: 98,
+      dy: -7,
+      count: 7,
+      size: 24,
+      color: "#C6FF3A"
+    });
+  }
+
+  function activateTab(target) {
+    document.querySelectorAll("[data-tab-target]").forEach((tab) => {
+      const active = tab.getAttribute("data-tab-target") === target;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+    document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
+      const active = panel.getAttribute("data-tab-panel") === target;
+      panel.classList.toggle("is-active", active);
+      panel.hidden = !active;
+    });
+  }
+
+  function setStorySlide(slider, index) {
+    const slides = Array.from(slider.querySelectorAll("[data-story-slide]"));
+    const dots = Array.from(slider.querySelectorAll("[data-story-dot]"));
+    const track = slider.querySelector("[data-story-track]");
+    if (!slides.length || !track) return;
+
+    const nextIndex = (index + slides.length) % slides.length;
+    slider.setAttribute("data-story-index", String(nextIndex));
+    track.style.transform = `translateX(-${nextIndex * 100}%)`;
+
+    slides.forEach((slide, slideIndex) => {
+      const active = slideIndex === nextIndex;
+      slide.classList.toggle("is-active", active);
+      slide.setAttribute("aria-hidden", String(!active));
+    });
+
+    dots.forEach((dot, dotIndex) => {
+      const active = dotIndex === nextIndex;
+      dot.classList.toggle("is-active", active);
+      if (active) dot.setAttribute("aria-current", "true");
+      else dot.removeAttribute("aria-current");
+    });
+  }
+
+  function initStorySliders() {
+    document.querySelectorAll("[data-story-slider]").forEach((slider) => {
+      setStorySlide(slider, Number(slider.getAttribute("data-story-index") || 0));
+    });
+  }
+
+  function setFaqState(item, button, answer, open) {
+    item.classList.toggle("is-open", open);
+    button.setAttribute("aria-expanded", String(open));
+    answer.style.maxHeight = open ? `${answer.scrollHeight}px` : "0px";
+  }
+
+  function syncFaqHeights() {
+    document.querySelectorAll("[data-faq-item].is-open").forEach((item) => {
+      const answer = item.querySelector("[data-faq-answer]");
+      if (answer) answer.style.maxHeight = `${answer.scrollHeight}px`;
+    });
+  }
+
+  function setText(modal, selector, value) {
+    const node = modal?.querySelector(selector);
+    if (node) node.textContent = value || "";
+  }
+
+  function openProductModal(slug) {
+    const dataNode = document.getElementById("product-data");
+    const products = JSON.parse(dataNode?.textContent || "[]");
+    const product = products.find((item) => item.slug === slug);
+    const modal = document.querySelector("[data-product-modal]");
+    const dialog = modal?.querySelector(".modal__dialog");
+    const siteRoot = document.querySelector("[data-site]");
+    if (!modal || !dialog || !product) return;
+
+    lastFocusedElement = document.activeElement;
+    setText(modal, "[data-modal-title]", product.name);
+    setText(modal, "[data-modal-status]", product.status);
+    setText(modal, "[data-modal-tagline]", product.detail.tagline);
+    setText(modal, "[data-modal-problem]", product.detail.problem);
+    setText(modal, "[data-modal-icon]", product.initial);
+    setText(modal, "[data-modal-cta]", `${product.cta} →`);
+
+    const icon = modal.querySelector("[data-modal-icon]");
+    if (icon) icon.className = `app-icon app-icon--${product.iconClass}`;
+    const status = modal.querySelector("[data-modal-status]");
+    if (status) status.className = `status status--${product.statusClass}`;
+
+    const buildList = modal.querySelector("[data-modal-build]");
+    buildList?.replaceChildren(...product.detail.build.map((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      return li;
+    }));
+
+    const stack = modal.querySelector("[data-modal-stack]");
+    stack?.replaceChildren(...product.detail.stack.map((item) => {
+      const span = document.createElement("span");
+      span.textContent = item;
+      return span;
+    }));
+
+    modal.hidden = false;
+    document.body.classList.add("is-locked");
+    if (siteRoot) siteRoot.inert = true;
+    dialog.focus();
+  }
+
+  function closeProductModal() {
+    const modal = document.querySelector("[data-product-modal]");
+    const siteRoot = document.querySelector("[data-site]");
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.classList.remove("is-locked");
+    if (siteRoot) siteRoot.inert = false;
+    if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+  }
+
+  function getErrorMessage(field) {
+    const name = field.name;
+    if (field.validity.valueMissing) return messages.valueMissing[name] || "This field is required.";
+    if (field.validity.typeMismatch) return messages.typeMismatch[name] || "Enter a valid value.";
+    if (field.validity.tooShort) return messages.tooShort[name] || `Use at least ${field.minLength} characters.`;
+    return "";
+  }
+
+  function showFieldError(field) {
+    const message = getErrorMessage(field);
+    const error = document.querySelector(`[data-error-for='${field.name}']`);
+    field.setAttribute("aria-invalid", String(Boolean(message)));
+    if (error) error.textContent = message;
+    return !message;
+  }
+
+  function validateForm(form) {
+    const fields = Array.from(form.querySelectorAll("input[required], textarea[required]"));
+    const valid = fields.map(showFieldError).every(Boolean);
+    if (!valid) fields.find((field) => !field.validity.valid)?.focus();
+    return valid;
+  }
+
+  function initPage() {
+    if (location.hash === "#products") activateTab("products");
+    initStorySliders();
+
+    document.querySelectorAll("[data-faq-item]").forEach((item) => {
+      const button = item.querySelector("[data-faq-toggle]");
+      const answer = item.querySelector("[data-faq-answer]");
+      if (button && answer) setFaqState(item, button, answer, item.classList.contains("is-open"));
+    });
+
+    const requestedType = new URLSearchParams(location.search).get("type");
+    if (requestedType) {
+      const requestedRadio = document.querySelector(`input[name='type'][value='${requestedType}']`);
+      if (requestedRadio) requestedRadio.checked = true;
+    }
+  }
+
+  function handleLogoClick(event) {
+    const logoLink = event.target instanceof Element ? event.target.closest("[data-logo-link]") : null;
+    if (!logoLink) return;
+
+    const url = new URL(logoLink.getAttribute("href") || "/", location.href);
+    if (url.origin !== location.origin || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button) return;
+
+    event.preventDefault();
+    closeMenu(false);
+    playLogoPaws(logoLink);
+
+    const sameTarget = url.pathname === location.pathname && url.search === location.search && url.hash === location.hash;
+    if (!sameTarget) {
+      window.setTimeout(() => navigate(url.href), prefersReducedMotion ? 0 : 520);
+    }
+  }
+
+  function handleClick(event) {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target) return;
+
+    if (target.closest("[data-menu-toggle]")) {
+      openMenu();
+      return;
+    }
+    if (target.closest("[data-menu-close]")) {
+      closeMenu();
+      return;
+    }
+    if (target.closest("[data-mobile-link]")) {
+      closeMenu(false);
+    }
+
+    const tab = target.closest("[data-tab-target]");
+    if (tab) {
+      activateTab(tab.getAttribute("data-tab-target"));
+      return;
+    }
+
+    const storyControl = target.closest("[data-story-prev], [data-story-next], [data-story-dot]");
+    if (storyControl) {
+      const slider = storyControl.closest("[data-story-slider]");
+      if (!slider) return;
+      const slides = slider.querySelectorAll("[data-story-slide]");
+      const current = Number(slider.getAttribute("data-story-index") || 0);
+      let next = current;
+      if (storyControl.matches("[data-story-dot]")) {
+        next = Number(storyControl.getAttribute("data-story-dot") || 0);
+      } else if (storyControl.matches("[data-story-prev]")) {
+        next = current - 1;
+      } else if (storyControl.matches("[data-story-next]")) {
+        next = current + 1;
+      }
+      if (slides.length) setStorySlide(slider, next);
+      return;
+    }
+
+    const faqButton = target.closest("[data-faq-toggle]");
+    if (faqButton) {
+      const item = faqButton.closest("[data-faq-item]");
+      const answer = item?.querySelector("[data-faq-answer]");
+      if (item && answer) setFaqState(item, faqButton, answer, !item.classList.contains("is-open"));
+      return;
+    }
+
+    const productButton = target.closest("[data-product-open]");
+    if (productButton) {
+      openProductModal(productButton.getAttribute("data-product-open"));
+      return;
+    }
+
+    if (target.closest("[data-modal-close]")) {
+      closeProductModal();
+      return;
+    }
+
+    if (target.closest("[data-reset-contact]")) {
+      const contactForm = document.querySelector("[data-contact-form]");
+      const contactCard = document.querySelector("[data-contact-card]");
+      const contactSuccess = document.querySelector("[data-contact-success]");
+      contactForm?.reset();
+      if (contactSuccess) contactSuccess.hidden = true;
+      if (contactCard) contactCard.hidden = false;
+      contactForm?.querySelector("input")?.focus();
+    }
+  }
+
+  function handleSubmit(event) {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+
+    if (form.matches("[data-contact-form]")) {
+      event.preventDefault();
+      if (!validateForm(form)) return;
+      const submitButton = form.querySelector("[data-submit-button]");
+      const contactCard = document.querySelector("[data-contact-card]");
+      const contactSuccess = document.querySelector("[data-contact-success]");
+      submitButton.textContent = "Transmitting brief...";
+      submitButton.disabled = true;
+      window.setTimeout(() => {
+        if (contactCard) contactCard.hidden = true;
+        if (contactSuccess) {
+          contactSuccess.hidden = false;
+          contactSuccess.focus();
+        }
+        submitButton.textContent = "Transmit Brief →";
+        submitButton.disabled = false;
+      }, 500);
+      return;
+    }
+
+    if (form.matches("[data-newsletter-form]")) {
+      event.preventDefault();
+      if (!validateForm(form)) return;
+      const newsletterSuccess = document.querySelector("[data-newsletter-success]");
+      form.hidden = true;
+      if (newsletterSuccess) newsletterSuccess.hidden = false;
+    }
+  }
+
+  function handleFieldChange(event) {
+    const field = event.target;
+    if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+      if (field.required) showFieldError(field);
+    }
+  }
+
+  function handleKeydown(event) {
+    const modal = document.querySelector("[data-product-modal]");
+    const dialog = modal?.querySelector(".modal__dialog");
+    const { menu } = getMenu();
+
+    if (event.key === "Escape") {
+      if (modal && !modal.hidden) closeProductModal();
+      else if (menu && !menu.hidden) closeMenu();
+    }
+
+    if (event.key === "Tab" && modal && !modal.hidden && dialog) {
+      const focusable = Array.from(dialog.querySelectorAll(focusableSelector));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    if (event.target instanceof HTMLElement && /input|textarea|select/i.test(event.target.tagName)) return;
+    if (!event.key || event.key.length !== 1) return;
+    keyBuffer = (keyBuffer + event.key.toLowerCase()).slice(-4);
+    if (keyBuffer === "woof") {
+      keyBuffer = "";
+      pawWalk({
+        startX: window.innerWidth * 0.07,
+        startY: window.innerHeight * 0.84,
+        dx: (window.innerWidth * 0.86) / 9,
+        dy: -(window.innerHeight * 0.52) / 9,
+        count: 10,
+        size: 42,
+        color: "#C6FF3A"
+      });
+    }
+  }
+
+  if (!window.__blakieSiteBound) {
+    window.__blakieSiteBound = true;
+    if (!prefersReducedMotion) {
+      window.addEventListener("mousemove", (event) => {
+        const glow = document.querySelector("[data-glow]");
+        if (glow) glow.style.transform = `translate3d(${event.clientX - 300}px, ${event.clientY - 300}px, 0)`;
+      }, { passive: true });
+    }
+    window.addEventListener("resize", syncFaqHeights);
+    document.addEventListener("astro:page-load", initPage);
+    document.addEventListener("click", handleLogoClick, true);
+    document.addEventListener("click", handleClick);
+    document.addEventListener("submit", handleSubmit);
+    document.addEventListener("input", handleFieldChange);
+    document.addEventListener("blur", handleFieldChange, true);
+    document.addEventListener("keydown", handleKeydown);
+  }
+
+  initPage();
+</script>

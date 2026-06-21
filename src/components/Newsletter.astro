@@ -1,0 +1,15 @@
+<section class="newsletter" aria-labelledby="newsletter-title">
+  <div class="newsletter__inner">
+    <div>
+      <h2 id="newsletter-title">Follow the lab.</h2>
+      <p>New apps, build logs, and the occasional dog photo. No spam, ever.</p>
+    </div>
+    <form class="newsletter__form" novalidate data-newsletter-form>
+      <label class="sr-only" for="newsletter-email">Email address</label>
+      <input id="newsletter-email" name="newsletterEmail" type="email" placeholder="you@studio.com" required aria-describedby="newsletter-error" />
+      <button class="button button--primary" type="submit">Subscribe</button>
+      <small class="newsletter__error" id="newsletter-error" data-error-for="newsletterEmail" aria-live="polite"></small>
+    </form>
+    <p class="newsletter__success" hidden data-newsletter-success>You're in the pack.</p>
+  </div>
+</section>

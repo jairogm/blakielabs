@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <g opacity="0.28">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200" stroke="#FAFAFA" stroke-width="1"/>
+    <path d="M90 0v630M180 0v630M270 0v630M360 0v630M450 0v630M540 0v630M630 0v630M720 0v630M810 0v630M900 0v630M990 0v630M1080 0v630" stroke="#FAFAFA" stroke-width="1"/>
+  </g>
+  <circle cx="860" cy="265" r="245" fill="#C6FF3A" opacity="0.12"/>
+  <g transform="translate(814 214)" fill="#C6FF3A">
+    <ellipse cx="80" cy="90" rx="58" ry="50"/>
+    <circle cx="18" cy="42" r="21"/>
+    <circle cx="58" cy="18" r="22"/>
+    <circle cx="105" cy="18" r="22"/>
+    <circle cx="145" cy="42" r="21"/>
+  </g>
+  <text x="82" y="168" fill="#C6FF3A" font-family="Geist Mono, monospace" font-size="28" font-weight="600">// SENIOR SOFTWARE STUDIO</text>
+  <text x="78" y="288" fill="#FAFAFA" font-family="Arial Black, Arial, sans-serif" font-size="104" font-weight="900">Blakie Labs</text>
+  <text x="84" y="362" fill="#C7C7C7" font-family="Arial, sans-serif" font-size="34">High-performance client software and sharp digital products.</text>
+  <text x="84" y="456" fill="#FAFAFA" font-family="Geist Mono, monospace" font-size="25">Architecture • MVPs • Product systems • Retainers</text>
+</svg>

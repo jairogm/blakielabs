@@ -1,0 +1,49 @@
+---
+import Brand from "./Brand.astro";
+
+const { active = "home" } = Astro.props;
+const links = [
+  { id: "work", label: "Work", href: "/work/" },
+  { id: "about", label: "About", href: "/about/" },
+  { id: "plans", label: "Plans", href: "/plans/" },
+  { id: "contact", label: "Contact", href: "/contact/" }
+];
+---
+
+<header class="nav" data-nav>
+  <Brand showMark={false} />
+
+  <a class="nav__center-mark" href="/" aria-label="Blakie Labs home" data-logo-link>
+    <img src="/paw.svg" alt="" />
+  </a>
+
+  <button class="nav__toggle" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" data-menu-toggle>
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav__links" aria-label="Primary navigation">
+    {links.map((link) => (
+      <a class:list={["nav__link", { "is-active": active === link.id }]} href={link.href} aria-current={active === link.id ? "page" : undefined}>
+        {link.label}
+      </a>
+    ))}
+    <a class="button button--primary button--small" href="/plans/">Hire the Lab →</a>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+  <div class="mobile-menu__bar">
+    <Brand href="/" showMark={false} />
+    <button class="mobile-menu__close" type="button" aria-label="Close menu" data-menu-close>&times;</button>
+  </div>
+  <nav class="mobile-menu__links" aria-label="Mobile navigation">
+    {links.map((link) => (
+      <a class:list={{ "is-active": active === link.id }} href={link.href} aria-current={active === link.id ? "page" : undefined} data-mobile-link>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+  <a class="button button--primary mobile-menu__cta" href="/plans/" data-mobile-link>Hire the Lab →</a>
+</div>

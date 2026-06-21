@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0A0A0A}
+  ::selection{background:#C6FF3A;color:#0A0A0A}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0A0A0A}
+  ::-webkit-scrollbar-thumb{background:#1d1d1d;border-radius:8px;border:2px solid #0A0A0A}
+  ::-webkit-scrollbar-thumb:hover{background:#2a2a2a}
+  input,textarea{font-family:inherit}
+  input::placeholder,textarea::placeholder{color:rgba(255,255,255,.28)}
+  @keyframes blk-grid{from{background-position:0 0,0 0}to{background-position:64px 64px,64px 64px}}
+  @keyframes blk-fade{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes blk-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+  @keyframes blk-spin{to{transform:rotate(360deg)}}
+  @keyframes blk-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+  @keyframes blk-scan{0%{transform:translateY(-100%)}100%{transform:translateY(420%)}}
+  @keyframes blk-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes blk-paw{0%{opacity:0;transform:var(--pw) scale(.5)}25%{opacity:.6}75%{opacity:.6}100%{opacity:0;transform:var(--pw) scale(1.08)}}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;background:#0A0A0A;color:#FAFAFA;font-family:'Satoshi',system-ui,sans-serif;overflow-x:hidden;font-feature-settings:'ss01';--px:{{ px }};--cols-hero:{{ colsHero }};--cols2:{{ cols2 }};--cols3:{{ cols3 }};--cols4:{{ cols4 }};--cols-origin:{{ colsOrigin }};">
+
+  <!-- animated background grid -->
+  <div style="position:fixed;inset:-2px;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;animation:blk-grid 9s linear infinite;mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 90%);"></div>
+  <!-- cursor glow -->
+  <div id="blakieGlow" style="position:fixed;top:0;left:0;width:600px;height:600px;z-index:0;pointer-events:none;background:radial-gradient(circle,rgba(198,255,58,.10),transparent 60%);transition:transform .45s cubic-bezier(.2,.6,.2,1);will-change:transform;"></div>
+  <!-- paw easter-egg layer -->
+  <div id="pawField" style="position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden;"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px var(--px,40px);backdrop-filter:blur(18px);background:rgba(10,10,10,.72);border-bottom:1px solid rgba(255,255,255,.08);">
+    <div onClick="{{ logoTap }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" style="flex:none;">
+        <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+        <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+        <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+        <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+        <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+        <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+      </svg>
+      <span style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.01em;">Blakie<span style="color:#C6FF3A;">.</span>Labs</span>
+    </div>
+
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" style="display:{{ navBurgerDisplay }};flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:10px;">
+      <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+      <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+      <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+    </button>
+
+    <div style="display:{{ navLinksDisplay }};align-items:center;gap:8px;">
+      <button onClick="{{ goWork }}" style="background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em;padding:9px 16px;border-radius:8px;color:{{ workColor }};transition:color .2s,background .2s;" style-hover="background:rgba(255,255,255,.05);color:#fff;">Work</button>
+      <button onClick="{{ goAbout }}" style="background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em;padding:9px 16px;border-radius:8px;color:{{ aboutColor }};transition:color .2s,background .2s;" style-hover="background:rgba(255,255,255,.05);color:#fff;">About</button>
+      <button onClick="{{ goPlans }}" style="background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em;padding:9px 16px;border-radius:8px;color:{{ plansColor }};transition:color .2s,background .2s;" style-hover="background:rgba(255,255,255,.05);color:#fff;">Plans</button>
+      <button onClick="{{ goContact }}" style="background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em;padding:9px 16px;border-radius:8px;color:{{ contactColor }};transition:color .2s,background .2s;" style-hover="background:rgba(255,255,255,.05);color:#fff;">Contact</button>
+      <button onClick="{{ goPlans }}" style="margin-left:10px;background:#C6FF3A;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-weight:500;font-size:13px;color:#0A0A0A;padding:11px 20px;border-radius:9px;transition:transform .18s,box-shadow .18s;box-shadow:0 0 0 rgba(198,255,58,0);" style-hover="transform:translateY(-1px);box-shadow:0 8px 30px rgba(198,255,58,.35);">Hire the Lab →</button>
+    </div>
+  </nav>
+
+  <!-- mobile drawer -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:80;background:rgba(10,10,10,.98);backdrop-filter:blur(14px);display:flex;flex-direction:column;padding:18px var(--px,40px) 32px;animation:blk-fade .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+          <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+          <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+          <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+          <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+        </svg>
+        <span style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.01em;">Blakie<span style="color:#C6FF3A;">.</span>Labs</span>
+      </div>
+      <button onClick="{{ toggleMenu }}" aria-label="Close" style="width:42px;height:42px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:#161616;color:#fff;cursor:pointer;font-size:22px;line-height:1;">×</button>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <button onClick="{{ goWork }}" style="text-align:left;background:none;border:none;border-top:1px solid rgba(255,255,255,.08);cursor:pointer;font-family:'Clash Display',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.02em;color:#fff;padding:22px 0;">Work</button>
+      <button onClick="{{ goAbout }}" style="text-align:left;background:none;border:none;border-top:1px solid rgba(255,255,255,.08);cursor:pointer;font-family:'Clash Display',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.02em;color:#fff;padding:22px 0;">About</button>
+      <button onClick="{{ goPlans }}" style="text-align:left;background:none;border:none;border-top:1px solid rgba(255,255,255,.08);cursor:pointer;font-family:'Clash Display',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.02em;color:#fff;padding:22px 0;">Plans</button>
+      <button onClick="{{ goContact }}" style="text-align:left;background:none;border:none;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer;font-family:'Clash Display',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.02em;color:#fff;padding:22px 0;">Contact</button>
+    </div>
+    <button onClick="{{ goPlans }}" style="margin-top:auto;background:#C6FF3A;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-weight:500;font-size:15px;color:#0A0A0A;padding:17px;border-radius:12px;">Hire the Lab →</button>
+  </div>
+  </sc-if>
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;z-index:1;animation:blk-fade .55s cubic-bezier(.2,.7,.2,1);">
+
+    <!-- HERO -->
+    <section style="max-width:1240px;margin:0 auto;padding:56px var(--px,40px) 40px;display:grid;grid-template-columns:var(--cols-hero,1.15fr .85fr);gap:48px;align-items:center;">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:99px;margin-bottom:28px;">
+          <span style="width:7px;height:7px;border-radius:99px;background:#C6FF3A;animation:blk-pulse 1.8s ease-in-out infinite;"></span>
+          DUAL-ENGINE DIGITAL STUDIO
+        </div>
+        <h1 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(44px,5.5vw,76px);line-height:.96;letter-spacing:-.03em;margin-bottom:24px;">We build software<br>that <span style="color:#C6FF3A;">bites.</span></h1>
+        <p style="font-size:18px;line-height:1.55;color:rgba(255,255,255,.6);max-width:520px;margin-bottom:36px;">Blakie Labs is a dual-engine digital studio. We ship high-performance software for global clients and incubate our own suite of digital applications.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <button onClick="{{ goPlans }}" style="background:#C6FF3A;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-weight:500;font-size:14px;color:#0A0A0A;padding:15px 26px;border-radius:11px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-2px);box-shadow:0 12px 38px rgba(198,255,58,.4);">Hire the Lab <span style="opacity:.6;">[Retainer Plans]</span></button>
+          <button onClick="{{ goProducts }}" style="background:transparent;cursor:pointer;font-family:'Geist Mono',monospace;font-size:14px;color:#fff;padding:15px 26px;border-radius:11px;border:1px solid rgba(255,255,255,.15);transition:border-color .2s,background .2s;" style-hover="border-color:#C6FF3A;background:rgba(198,255,58,.06);">Explore Our Apps →</button>
+        </div>
+      </div>
+
+      <!-- hero visual: dog mark -->
+      <div style="position:relative;aspect-ratio:1;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:radial-gradient(120% 120% at 70% 10%,#161616,#0c0c0c);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px;"></div>
+        <div style="position:absolute;width:60%;height:60%;background:radial-gradient(circle,rgba(198,255,58,.18),transparent 65%);filter:blur(20px);"></div>
+        <svg width="58%" viewBox="0 0 40 40" fill="none" style="position:relative;animation:blk-float 6s ease-in-out infinite;filter:drop-shadow(0 24px 50px rgba(0,0,0,.6));">
+          <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+          <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+          <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+          <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+        </svg>
+        <div style="position:absolute;bottom:18px;left:18px;font-family:'Geist Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);">// blakie.exe — loyal by design</div>
+      </div>
+    </section>
+
+    <!-- DUAL MODEL BENTO -->
+    <section style="max-width:1240px;margin:0 auto;padding:32px var(--px,40px) 90px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;">
+        <h2 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;">Two engines. One pack.</h2>
+        <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);">[ THE AGENCY ] × [ THE LAB ]</span>
+      </div>
+      <div style="display:grid;grid-template-columns:var(--cols2,1fr 1fr);gap:20px;">
+
+        <!-- Card A: Agency -->
+        <div style="position:relative;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#121212;padding:34px;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;" style-hover="border-color:rgba(198,255,58,.45);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.5);">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:18px;">01 — THE AGENCY</div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:30px;letter-spacing:-.02em;margin-bottom:12px;">Dedicated velocity,<br>on retainer.</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.55;margin-bottom:26px;max-width:420px;">High-end monthly engineering retainers. Full-stack architecture, rapid MVPs, and a senior pack shipping production code on your roadmap.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ agencyPoints }}" as="pt" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid rgba(255,255,255,.06);font-size:15px;color:rgba(255,255,255,.85);">
+                <span style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;">→</span>{{ pt }}
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ goPlans }}" style="margin-top:26px;background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:14px;color:#C6FF3A;padding:0;transition:gap .2s;display:inline-flex;gap:8px;" style-hover="gap:14px;">View retainer plans →</button>
+        </div>
+
+        <!-- Card B: Lab -->
+        <div style="position:relative;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#121212;padding:34px;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;" style-hover="border-color:rgba(198,255,58,.45);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.5);">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:18px;">02 — THE LAB</div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:30px;letter-spacing:-.02em;margin-bottom:12px;">Apps we ship<br>for ourselves.</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.55;margin-bottom:24px;max-width:420px;">A growing suite of proprietary SaaS, built in the open. Some live, some incubating in the kennel.</p>
+          <div style="display:grid;grid-template-columns:var(--cols2,1fr 1fr);gap:10px;">
+            <sc-for list="{{ labPreview }}" as="app" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px;padding:13px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:#161616;transition:border-color .2s,background .2s;" style-hover="border-color:rgba(255,255,255,.18);background:#1a1a1a;">
+                <div style="width:32px;height:32px;flex:none;border-radius:9px;background:{{ app.iconBg }};display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:15px;color:{{ app.iconColor }};">{{ app.initial }}</div>
+                <div style="min-width:0;">
+                  <div style="font-weight:500;font-size:14px;">{{ app.name }}</div>
+                  <div style="display:flex;align-items:center;gap:6px;font-family:'Geist Mono',monospace;font-size:10px;color:{{ app.statusColor }};">
+                    <span style="width:5px;height:5px;border-radius:99px;background:{{ app.statusColor }};"></span>{{ app.status }}
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ goProducts }}" style="margin-top:24px;background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:14px;color:#C6FF3A;padding:0;transition:gap .2s;display:inline-flex;gap:8px;" style-hover="gap:14px;">Browse all products →</button>
+        </div>
+      </div>
+
+      <!-- stat strip -->
+      <div style="margin-top:20px;display:grid;grid-template-columns:var(--cols4,repeat(4,1fr));gap:20px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#0e0e0e;padding:30px;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:40px;letter-spacing:-.02em;color:#fff;">{{ s.num }}</div>
+            <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- social proof -->
+    <section style="max-width:1240px;margin:0 auto;padding:0 var(--px,40px) 96px;">
+      <div style="text-align:center;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);margin-bottom:26px;">TRUSTED BY TEAMS THAT SHIP</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 48px;margin-bottom:56px;">
+        <sc-for list="{{ clientLogos }}" as="logo" hint-placeholder-count="6">
+          <span style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em;color:rgba(255,255,255,.32);transition:color .2s;" style-hover="color:rgba(255,255,255,.7);">{{ logo }}</span>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:var(--cols2,1fr 1fr);gap:20px;">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="2">
+          <div style="border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#121212;padding:32px;transition:border-color .25s;" style-hover="border-color:rgba(198,255,58,.3);">
+            <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;line-height:1.4;letter-spacing:-.01em;margin-bottom:24px;text-wrap:pretty;">&ldquo;{{ t.quote }}&rdquo;</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="width:34px;height:34px;flex:none;border-radius:99px;background:rgba(198,255,58,.12);border:1px solid rgba(198,255,58,.3);display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:15px;color:#C6FF3A;">&rdquo;</span>
+              <div>
+                <div style="font-weight:500;font-size:14px;">{{ t.name }}</div>
+                <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);">{{ t.org }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <!-- ============ WORK ============ -->
+  <sc-if value="{{ isWork }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;z-index:1;animation:blk-fade .55s cubic-bezier(.2,.7,.2,1);max-width:1240px;margin:0 auto;padding:72px var(--px,40px) 90px;">
+    <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:14px;">// PORTFOLIO &amp; PRODUCTS</div>
+    <h1 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(40px,5vw,64px);letter-spacing:-.03em;line-height:.98;margin-bottom:32px;">The Work.</h1>
+
+    <!-- tabs -->
+    <div style="display:inline-flex;gap:4px;padding:5px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:#111;margin-bottom:36px;">
+      <button onClick="{{ showClients }}" style="border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;padding:11px 20px;border-radius:9px;transition:all .2s;background:{{ clientTabBg }};color:{{ clientTabColor }};">Client Systems</button>
+      <button onClick="{{ showProducts }}" style="border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;padding:11px 20px;border-radius:9px;transition:all .2s;background:{{ productTabBg }};color:{{ productTabColor }};">Our Products</button>
+    </div>
+
+    <!-- CLIENT SYSTEMS -->
+    <sc-if value="{{ isClientTab }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:var(--cols2,1fr 1fr);gap:20px;animation:blk-fade .4s ease;">
+      <sc-for list="{{ clients }}" as="c" hint-placeholder-count="4">
+        <div style="position:relative;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#121212;padding:30px;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;" style-hover="border-color:rgba(198,255,58,.45);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.5);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:50px;">
+            <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);">{{ c.sector }}</span>
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#C6FF3A;border:1px solid rgba(198,255,58,.3);padding:4px 10px;border-radius:99px;">{{ c.tag }}</span>
+          </div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.02em;margin-bottom:8px;">{{ c.name }}</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.5;font-size:15px;margin-bottom:22px;">{{ c.desc }}</p>
+          <div style="display:flex;gap:28px;border-top:1px solid rgba(255,255,255,.07);padding-top:18px;">
+            <div>
+              <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:26px;color:#C6FF3A;">{{ c.metric }}</div>
+              <div style="font-family:'Geist Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);">{{ c.metricLabel }}</div>
+            </div>
+            <div>
+              <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:26px;color:#fff;">{{ c.metric2 }}</div>
+              <div style="font-family:'Geist Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);">{{ c.metric2Label }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- OUR PRODUCTS -->
+    <sc-if value="{{ isProductTab }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:var(--cols3,repeat(3,1fr));gap:20px;animation:blk-fade .4s ease;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+        <div onClick="{{ p.onOpen }}" style="position:relative;cursor:pointer;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:#121212;padding:26px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s;" style-hover="border-color:rgba(198,255,58,.45);transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.5);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;">
+            <div style="width:46px;height:46px;border-radius:13px;background:{{ p.iconBg }};display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:22px;color:{{ p.iconColor }};">{{ p.initial }}</div>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-family:'Geist Mono',monospace;font-size:11px;color:{{ p.statusColor }};border:1px solid {{ p.statusBorder }};padding:4px 10px;border-radius:99px;">
+              <span style="width:5px;height:5px;border-radius:99px;background:{{ p.statusColor }};"></span>{{ p.status }}
+            </span>
+          </div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:21px;letter-spacing:-.01em;margin-bottom:8px;">{{ p.name }}</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.5;font-size:14px;flex:1;margin-bottom:20px;">{{ p.desc }}</p>
+          <button onClick="{{ p.onOpen }}" style="align-self:flex-start;background:none;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:13px;color:#fff;padding:0;display:inline-flex;gap:8px;transition:gap .2s,color .2s;" style-hover="gap:14px;color:#C6FF3A;">View case study →</button>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- ============ ABOUT ============ -->
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;z-index:1;animation:blk-fade .55s cubic-bezier(.2,.7,.2,1);max-width:1000px;margin:0 auto;padding:80px var(--px,40px) 90px;">
+    <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:14px;">// THE MANIFEST</div>
+    <h1 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(40px,6vw,72px);letter-spacing:-.03em;line-height:1.0;margin-bottom:40px;max-width:14ch;">Legendary code, or nothing at all.</h1>
+    <p style="font-size:22px;line-height:1.6;color:rgba(255,255,255,.72);max-width:60ch;margin-bottom:18px;text-wrap:pretty;">We are a small pack of senior engineers who refuse to ship mediocre work. Extreme quality, ruthless agility, and a standing habit of moving out of the comfort zone to build things that outlast their hype cycle.</p>
+    <p style="font-size:22px;line-height:1.6;color:rgba(255,255,255,.72);max-width:60ch;margin-bottom:56px;text-wrap:pretty;">No bloated teams. No hand-offs to junior devs. The people you talk to are the people writing the code.</p>
+
+    <div style="display:grid;grid-template-columns:var(--cols3,repeat(3,1fr));gap:20px;margin-bottom:64px;">
+      <sc-for list="{{ ethos }}" as="e" hint-placeholder-count="3">
+        <div style="border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#121212;padding:28px;transition:border-color .25s,transform .25s;" style-hover="border-color:rgba(198,255,58,.4);transform:translateY(-4px);">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:14px;">{{ e.num }}</div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;margin-bottom:8px;">{{ e.title }}</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.5;font-size:14px;">{{ e.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- origin story -->
+    <div style="display:grid;grid-template-columns:var(--cols-origin,auto 1fr);gap:40px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:radial-gradient(120% 140% at 0% 0%,#161616,#0c0c0c);padding:44px;overflow:hidden;">
+      <div style="position:relative;width:140px;height:140px;flex:none;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle,rgba(198,255,58,.16),transparent 65%);filter:blur(14px);"></div>
+        <svg width="120" viewBox="0 0 40 40" fill="none" style="position:relative;filter:drop-shadow(0 14px 30px rgba(0,0,0,.6));">
+          <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+          <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+          <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+          <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+        </svg>
+      </div>
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:12px;">ORIGIN — WHY "BLAKIE"</div>
+        <p style="font-size:19px;line-height:1.55;color:rgba(255,255,255,.82);text-wrap:pretty;">Named after our favorite black dog, Blakie Labs embodies <span style="color:#C6FF3A;">loyalty, high speed, and protective execution</span> over the codebases we build. We guard your product like it's our own bone.</p>
+      </div>
+    </div>
+
+    <!-- meet the pack -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin:64px 0 22px;">
+      <h2 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;">Meet the pack.</h2>
+      <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);">[ THE PEOPLE WRITING THE CODE ]</span>
+    </div>
+    <div style="display:grid;grid-template-columns:var(--cols4,repeat(4,1fr));gap:18px;">
+      <sc-for list="{{ team }}" as="m" hint-placeholder-count="4">
+        <div style="border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#121212;padding:24px;text-align:center;transition:border-color .25s,transform .25s;" style-hover="border-color:rgba(198,255,58,.4);transform:translateY(-4px);">
+          <div style="width:72px;height:72px;margin:0 auto 16px;border-radius:99px;background:#161616;border:{{ m.avatarRing }};display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:28px;color:{{ m.avatarColor }};background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:12px 12px;">{{ m.initial }}</div>
+          <div style="font-weight:500;font-size:16px;margin-bottom:4px;">{{ m.name }}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);">{{ m.role }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ PLANS ============ -->
+  <sc-if value="{{ isPlans }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;z-index:1;animation:blk-fade .55s cubic-bezier(.2,.7,.2,1);max-width:1240px;margin:0 auto;padding:72px var(--px,40px) 90px;">
+    <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:14px;">// RETAINER PLANS</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:44px;">
+      <div>
+        <h1 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(40px,5vw,64px);letter-spacing:-.03em;line-height:.98;margin-bottom:12px;">Reserve a pack slot.</h1>
+        <p style="font-size:17px;color:rgba(255,255,255,.55);max-width:48ch;">Senior engineering on tap, billed monthly. No SOWs, no change orders &mdash; just velocity. Pause or scale anytime.</p>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',monospace;font-size:13px;color:#C6FF3A;border:1px solid rgba(198,255,58,.3);background:rgba(198,255,58,.06);padding:11px 16px;border-radius:99px;white-space:nowrap;">
+        <span style="width:8px;height:8px;border-radius:99px;background:#C6FF3A;animation:blk-pulse 1.8s ease-in-out infinite;"></span>{{ slotsOpen }}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:var(--cols3,repeat(3,1fr));gap:20px;margin-bottom:72px;align-items:start;">
+      <sc-for list="{{ plans }}" as="plan" hint-placeholder-count="3">
+        <div style="{{ plan.cardStyle }}">
+          <sc-if value="{{ plan.popular }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;top:-11px;left:34px;font-family:'Geist Mono',monospace;font-size:11px;color:#0A0A0A;background:#C6FF3A;padding:4px 12px;border-radius:99px;">MOST POPULAR</span>
+          </sc-if>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:6px;">{{ plan.tagline }}</div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;margin-bottom:18px;">{{ plan.name }}</h3>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:22px;">
+            <span style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:44px;letter-spacing:-.02em;color:{{ plan.priceColor }};">{{ plan.price }}</span>
+            <span style="font-family:'Geist Mono',monospace;font-size:13px;color:rgba(255,255,255,.4);">{{ plan.period }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1px;">
+            <sc-for list="{{ plan.features }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-top:1px solid rgba(255,255,255,.06);font-size:14px;color:rgba(255,255,255,.85);">
+                <span style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;line-height:1.4;">→</span>{{ f }}
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ hireRetainer }}" style="{{ plan.ctaStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 10px 30px rgba(198,255,58,.25);">Claim this slot →</button>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- how it works -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;">
+      <h2 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;">How the retainer works.</h2>
+      <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);">[ NO BLACK BOX ]</span>
+    </div>
+    <div style="display:grid;grid-template-columns:var(--cols3,repeat(3,1fr));gap:20px;">
+      <sc-for list="{{ howItWorks }}" as="step" hint-placeholder-count="3">
+        <div style="border:1px solid rgba(255,255,255,.08);border-radius:18px;background:#121212;padding:28px;">
+          <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:40px;color:rgba(255,255,255,.12);letter-spacing:-.02em;margin-bottom:10px;">{{ step.num }}</div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:19px;margin-bottom:8px;">{{ step.title }}</h3>
+          <p style="color:rgba(255,255,255,.55);line-height:1.5;font-size:14px;">{{ step.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- faq -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin:72px 0 22px;">
+      <h2 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;">Retainer FAQ.</h2>
+      <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.4);">[ THE FINE PRINT ]</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:840px;">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+        <div onClick="{{ f.onToggle }}" style="cursor:pointer;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#121212;padding:22px 24px;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,.18);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+            <span style="font-weight:500;font-size:16px;">{{ f.q }}</span>
+            <span style="font-family:'Geist Mono',monospace;font-size:22px;line-height:1;color:#C6FF3A;flex:none;">{{ f.sign }}</span>
+          </div>
+          <div style="overflow:hidden;transition:max-height .3s ease,opacity .3s ease,margin-top .3s ease;max-height:{{ f.maxH }};opacity:{{ f.op }};margin-top:{{ f.mt }};">
+            <p style="color:rgba(255,255,255,.55);line-height:1.55;font-size:15px;max-width:72ch;">{{ f.a }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ CONTACT ============ -->
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;z-index:1;animation:blk-fade .55s cubic-bezier(.2,.7,.2,1);max-width:760px;margin:0 auto;padding:80px var(--px,40px) 100px;">
+
+    <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:14px;">// RETAINER INTAKE</div>
+      <h1 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(38px,5vw,60px);letter-spacing:-.03em;line-height:1.0;margin-bottom:14px;">Let's build something<br>worth biting into.</h1>
+      <p style="font-size:17px;color:rgba(255,255,255,.55);margin-bottom:44px;">Tell us what you're working on. We reply to every brief within 24 hours.</p>
+
+      <form onSubmit="{{ onSubmit }}">
+        <!-- toggle selector -->
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:14px;">WHAT BRINGS YOU HERE?</div>
+        <div style="display:grid;grid-template-columns:var(--cols3,repeat(3,1fr));gap:12px;margin-bottom:36px;">
+          <sc-for list="{{ typeOptions }}" as="opt" hint-placeholder-count="3">
+            <div onClick="{{ opt.onSelect }}" style="cursor:pointer;padding:18px;border-radius:14px;border:1px solid {{ opt.borderColor }};background:{{ opt.bg }};transition:border-color .2s,background .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                <span style="font-family:'Geist Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);">{{ opt.num }}</span>
+                <span style="display:block;width:14px;height:14px;border-radius:99px;border:{{ opt.dotBorder }};background:{{ opt.dotBg }};box-shadow:{{ opt.dotShadow }};"></span>
+              </div>
+              <div style="font-weight:500;font-size:15px;line-height:1.3;">{{ opt.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:var(--cols2,1fr 1fr);gap:18px;margin-bottom:18px;">
+          <div>
+            <label style="display:block;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:9px;">NAME</label>
+            <input value="{{ fName }}" onInput="{{ onName }}" placeholder="Jane Doe" style="width:100%;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:15px;color:#fff;font-size:15px;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#C6FF3A;background:#141414;">
+          </div>
+          <div>
+            <label style="display:block;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:9px;">COMPANY</label>
+            <input value="{{ fCompany }}" onInput="{{ onCompany }}" placeholder="Acme Inc." style="width:100%;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:15px;color:#fff;font-size:15px;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#C6FF3A;background:#141414;">
+          </div>
+        </div>
+        <div style="margin-bottom:18px;">
+          <label style="display:block;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:9px;">EMAIL</label>
+          <input value="{{ fEmail }}" onInput="{{ onEmail }}" type="email" placeholder="jane@acme.com" style="width:100%;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:15px;color:#fff;font-size:15px;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#C6FF3A;background:#141414;">
+        </div>
+        <div style="margin-bottom:34px;">
+          <label style="display:block;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:9px;">THE BRIEF / IDEA</label>
+          <textarea value="{{ fBrief }}" onInput="{{ onBrief }}" rows="4" placeholder="What are you building? What's the timeline?" style="width:100%;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:15px;color:#fff;font-size:15px;outline:none;resize:vertical;line-height:1.5;transition:border-color .2s,background .2s;" style-focus="border-color:#C6FF3A;background:#141414;"></textarea>
+        </div>
+
+        <button type="submit" style="width:100%;cursor:pointer;border:none;font-family:'Geist Mono',monospace;font-weight:500;font-size:15px;color:#0A0A0A;padding:18px;border-radius:13px;background:#C6FF3A;transition:transform .18s,box-shadow .18s;box-shadow:0 8px 30px rgba(198,255,58,.25);" style-hover="transform:translateY(-2px);box-shadow:0 12px 38px rgba(198,255,58,.4);">
+          <sc-if value="{{ submitting }}" hint-placeholder-val="{{ false }}">
+            <span style="display:inline-flex;align-items:center;gap:12px;"><span style="width:16px;height:16px;border:2px solid rgba(10,10,10,.3);border-top-color:#0A0A0A;border-radius:99px;animation:blk-spin .7s linear infinite;"></span>Transmitting brief…</span>
+          </sc-if>
+          <sc-if value="{{ btnIdle }}" hint-placeholder-val="{{ true }}">
+            <span>Transmit Brief →</span>
+          </sc-if>
+        </button>
+      </form>
+    </div>
+    </sc-if>
+
+    <!-- success -->
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;padding:60px 0;animation:blk-fade .5s ease;">
+      <div style="position:relative;width:96px;height:96px;margin:0 auto 30px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle,rgba(198,255,58,.25),transparent 65%);filter:blur(12px);"></div>
+        <svg width="80" viewBox="0 0 40 40" fill="none" style="position:relative;animation:blk-float 5s ease-in-out infinite;">
+          <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+          <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+          <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+          <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+        </svg>
+      </div>
+      <h2 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:36px;letter-spacing:-.02em;margin-bottom:12px;">Brief received. Blakie's on it.</h2>
+      <p style="font-size:17px;color:rgba(255,255,255,.55);margin-bottom:30px;">We'll fetch you a reply within 24 hours.</p>
+      <button onClick="{{ resetForm }}" style="background:none;cursor:pointer;font-family:'Geist Mono',monospace;font-size:14px;color:#C6FF3A;border:1px solid rgba(198,255,58,.3);padding:13px 24px;border-radius:11px;transition:background .2s;" style-hover="background:rgba(198,255,58,.08);">Send another →</button>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- ============ PRODUCT MODAL ============ -->
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,5,.78);backdrop-filter:blur(7px);animation:blk-fade .25s ease;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:#121212;padding:clamp(24px,5vw,40px);">
+      <button onClick="{{ closeModal }}" style="position:absolute;top:20px;right:20px;width:34px;height:34px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:#161616;color:#fff;cursor:pointer;font-size:18px;line-height:1;transition:background .2s,border-color .2s;" style-hover="background:#1f1f1f;border-color:rgba(255,255,255,.25);">×</button>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+        <div style="width:54px;height:54px;flex:none;border-radius:15px;background:{{ modalProduct.iconBg }};display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:26px;color:{{ modalProduct.iconColor }};">{{ modalProduct.initial }}</div>
+        <div>
+          <h3 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;">{{ modalProduct.name }}</h3>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-family:'Geist Mono',monospace;font-size:12px;color:{{ modalProduct.statusColor }};"><span style="width:5px;height:5px;border-radius:99px;background:{{ modalProduct.statusColor }};"></span>{{ modalProduct.status }}</span>
+        </div>
+      </div>
+      <p style="font-size:18px;line-height:1.5;color:rgba(255,255,255,.85);margin-bottom:30px;text-wrap:pretty;">{{ modalProduct.detail.tagline }}</p>
+
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:8px;">THE PROBLEM</div>
+      <p style="color:rgba(255,255,255,.6);line-height:1.55;font-size:15px;margin-bottom:26px;">{{ modalProduct.detail.problem }}</p>
+
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:12px;">WHAT WE BUILT</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:26px;">
+        <sc-for list="{{ modalProduct.detail.build }}" as="b" hint-placeholder-count="3">
+          <div style="display:flex;gap:11px;font-size:15px;color:rgba(255,255,255,.85);line-height:1.45;"><span style="font-family:'Geist Mono',monospace;color:#C6FF3A;flex:none;">→</span>{{ b }}</div>
+        </sc-for>
+      </div>
+
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#C6FF3A;margin-bottom:12px;">STACK</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px;">
+        <sc-for list="{{ modalProduct.detail.stack }}" as="tech" hint-placeholder-count="4">
+          <span style="font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12);padding:6px 12px;border-radius:99px;">{{ tech }}</span>
+        </sc-for>
+      </div>
+
+      <button onClick="{{ closeModal }}" style="width:100%;background:#C6FF3A;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-weight:500;font-size:14px;color:#0A0A0A;padding:16px;border-radius:12px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-2px);box-shadow:0 12px 34px rgba(198,255,58,.32);">{{ modalProduct.cta }} →</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section style="position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.08);">
+    <div style="max-width:1240px;margin:0 auto;padding:60px var(--px,40px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;">
+      <div>
+        <h2 style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;">Follow the lab.</h2>
+        <p style="color:rgba(255,255,255,.55);font-size:16px;max-width:46ch;">New apps, build logs, and the occasional dog photo. No spam, ever.</p>
+      </div>
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubscribe }}" style="display:flex;gap:10px;min-width:min(340px,100%);">
+        <input value="{{ subEmail }}" onInput="{{ onSubEmail }}" type="email" placeholder="you@studio.com" style="flex:1;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px 16px;color:#fff;font-size:15px;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#C6FF3A;background:#141414;">
+        <button type="submit" style="background:#C6FF3A;border:none;cursor:pointer;font-family:'Geist Mono',monospace;font-weight:500;font-size:14px;color:#0A0A0A;padding:0 24px;border-radius:11px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-2px);box-shadow:0 8px 26px rgba(198,255,58,.32);">Subscribe</button>
+      </form>
+      </sc-if>
+      <sc-if value="{{ subscribed }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'Geist Mono',monospace;font-size:15px;color:#C6FF3A;border:1px solid rgba(198,255,58,.3);background:rgba(198,255,58,.06);padding:16px 28px;border-radius:12px;min-width:min(340px,100%);justify-content:center;">✓ You're in the pack.</div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.08);">
+    <div style="max-width:1240px;margin:0 auto;padding:32px var(--px,40px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:16px;">
+        <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
+          <path d="M6 9 Q2 19 7 28 L13 24 Q10 17 12 11 Z" fill="#FAFAFA"/>
+          <path d="M34 9 Q38 19 33 28 L27 24 Q30 17 28 11 Z" fill="#FAFAFA"/>
+          <rect x="9.5" y="7" width="21" height="23" rx="9.5" fill="#FAFAFA"/>
+          <circle cx="15.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <circle cx="24.5" cy="17" r="1.9" fill="#0A0A0A"/>
+          <path d="M20 21 L23.4 25.2 H16.6 Z" fill="#C6FF3A"/>
+        </svg>
+        Blakie<span style="color:#C6FF3A;">.</span>Labs
+      </div>
+      <span style="display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:12px;color:rgba(255,255,255,.35);"><svg width="13" height="13" viewBox="0 0 32 32" fill="currentColor"><ellipse cx="16" cy="21" rx="7.5" ry="6.5"/><circle cx="7.5" cy="13.5" r="2.7"/><circle cx="13.5" cy="9" r="2.9"/><circle cx="20.5" cy="9" r="2.9"/><circle cx="24.5" cy="13.5" r="2.7"/></svg>© 2026 — built with teeth.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    view: 'home',
+    tab: 'clients',
+    formType: 'retainer',
+    name: '', company: '', email: '', brief: '',
+    submitting: false, submitted: false,
+    openFaq: null, modalIndex: null,
+    subEmail: '', subscribed: false,
+    vw: (typeof window !== 'undefined' ? window.innerWidth : 1280), menuOpen: false,
+  };
+
+  componentDidMount() {
+    this._mm = (e) => {
+      const g = document.getElementById('blakieGlow');
+      if (g) g.style.transform = `translate3d(${e.clientX - 300}px, ${e.clientY - 300}px, 0)`;
+    };
+    window.addEventListener('mousemove', this._mm);
+
+    this._buf = '';
+    this._kd = (e) => {
+      const t = e.target;
+      if (t && /input|textarea/i.test(t.tagName)) return;
+      if (!e.key || e.key.length !== 1) return;
+      this._buf = (this._buf + e.key.toLowerCase()).slice(-4);
+      if (this._buf === 'woof') { this._buf = ''; this.pawParade(); }
+    };
+    window.addEventListener('keydown', this._kd);
+
+    this._rs = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = null; this.setState({ vw: window.innerWidth }); });
+    };
+    window.addEventListener('resize', this._rs);
+    this.setState({ vw: window.innerWidth });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this._mm);
+    window.removeEventListener('keydown', this._kd);
+    window.removeEventListener('resize', this._rs);
+  }
+
+  pawWalk(o) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const field = document.getElementById('pawField');
+    if (!field) return;
+    const PAW = '<svg viewBox="0 0 32 32" width="100%" height="100%" fill="currentColor"><ellipse cx="16" cy="21" rx="7.5" ry="6.5"/><circle cx="7.5" cy="13.5" r="2.7"/><circle cx="13.5" cy="9" r="2.9"/><circle cx="20.5" cy="9" r="2.9"/><circle cx="24.5" cy="13.5" r="2.7"/></svg>';
+    const deg = Math.atan2(o.dy, o.dx) * 180 / Math.PI + 90;
+    const pr = (deg) * Math.PI / 180;
+    for (let k = 0; k < o.count; k++) {
+      const side = (k % 2 === 0 ? 1 : -1);
+      const px = o.startX + o.dx * k + Math.cos(pr) * side * o.size * 0.5;
+      const py = o.startY + o.dy * k + Math.sin(pr) * side * o.size * 0.5;
+      const el = document.createElement('div');
+      el.style.cssText = 'position:absolute;left:' + px + 'px;top:' + py + 'px;width:' + o.size + 'px;height:' + o.size + 'px;color:' + o.color + ';--pw:rotate(' + deg + 'deg);opacity:0;animation:blk-paw 1.4s ease forwards;animation-delay:' + (k * 95) + 'ms;';
+      el.innerHTML = PAW;
+      field.appendChild(el);
+      setTimeout(() => el.remove(), 1600 + k * 95);
+    }
+  }
+  pawParade() {
+    const W = window.innerWidth, H = window.innerHeight;
+    this.pawWalk({ startX: W * 0.07, startY: H * 0.84, dx: (W * 0.86) / 9, dy: -(H * 0.52) / 9, count: 10, size: 42, color: '#C6FF3A' });
+  }
+
+  nav(v) { this.setState({ view: v, menuOpen: false }); window.scrollTo(0, 0); }
+
+  renderVals() {
+    const s = this.state;
+    const lime = '#C6FF3A';
+    const muted = 'rgba(255,255,255,.55)';
+    const navColor = (v) => s.view === v ? '#fff' : muted;
+    const vw = s.vw || 1280;
+    const m = vw < 760, t = vw < 1024;
+
+    const statusStyle = (st) => {
+      if (st === 'Live') return { statusColor: lime, statusBorder: 'rgba(198,255,58,.3)' };
+      if (st === 'In Beta') return { statusColor: '#fff', statusBorder: 'rgba(255,255,255,.25)' };
+      return { statusColor: 'rgba(255,255,255,.4)', statusBorder: 'rgba(255,255,255,.12)' };
+    };
+    const iconTheme = (i) => i % 3 === 0
+      ? { iconBg: lime, iconColor: '#0A0A0A' }
+      : { iconBg: 'rgba(255,255,255,.06)', iconColor: '#fff' };
+
+    const productData = [
+      { name: 'Fetchly', initial: 'F', status: 'Live', desc: 'AI changelog & release-note generator. Ships notes your users actually read.', cta: 'Open app',
+        detail: { tagline: 'Turn raw commits into release notes humans actually want to read.', problem: 'Teams ship constantly but changelogs rot \u2014 written last, read never. Users miss what shipped and support fields the same questions over and over.', build: ['LLM pipeline that summarizes merged PRs into plain-English notes', 'One-click publish to a hosted, themeable changelog', 'Slack + email digests on every release'], stack: ['TypeScript', 'Next.js', 'Postgres', 'OpenAI'] } },
+      { name: 'Tracewell', initial: 'T', status: 'In Beta', desc: 'Self-hosted error tracking with zero bloat and full data ownership.', cta: 'Join beta',
+        detail: { tagline: 'Error tracking you actually own \u2014 self-hosted, lightweight, yours.', problem: 'Hosted error tools are pricey, send your stack traces to someone else\u2019s cloud, and bury signal under noise.', build: ['Single-binary deploy on your own infra', 'Smart grouping that collapses duplicate noise', 'Source-map support with sub-second ingest'], stack: ['Rust', 'ClickHouse', 'React', 'Docker'] } },
+      { name: 'Kennel', initial: 'K', status: 'Live', desc: 'Deploy and manage all your side projects from a single dashboard.', cta: 'Open app',
+        detail: { tagline: 'Every side project, one dashboard \u2014 deploy, monitor, and forget the YAML.', problem: 'Indie hackers run a dozen tiny apps across five hosts and lose track of what\u2019s live, what\u2019s costing money, and what\u2019s down.', build: ['Unified deploy panel across providers', 'Cost + uptime at a glance per project', 'Auto-sleep for idle apps to cut spend'], stack: ['Go', 'Svelte', 'Postgres', 'Fly.io'] } },
+      { name: 'Sniff', initial: 'S', status: 'In Beta', desc: 'Privacy-first product analytics. Cookieless, lightweight, honest.', cta: 'Join beta',
+        detail: { tagline: 'Product analytics that respect your users \u2014 cookieless and honest.', problem: 'Most analytics are bloated, creepy, and need a cookie banner. You want the numbers without selling out your users.', build: ['Cookieless, GDPR-clean event tracking', '<2kb script, no performance hit', 'Funnels and retention without the surveillance'], stack: ['Elixir', 'ClickHouse', 'React', 'Phoenix'] } },
+      { name: 'Boneyard', initial: 'B', status: 'In Incubator', desc: 'A code-snippet vault with semantic search across your whole stack.', cta: 'Get notified',
+        detail: { tagline: 'Your team\u2019s code memory \u2014 every snippet, semantically searchable.', problem: 'The fix you wrote six months ago is buried in a Slack thread. Tribal knowledge walks out the door with every departure.', build: ['Semantic search across snippets and gists', 'Editor + CLI capture in one keystroke', 'Team libraries with access control'], stack: ['Python', 'pgvector', 'React', 'Tauri'] } },
+      { name: 'Howl', initial: 'H', status: 'In Incubator', desc: 'Realtime status pages that don\u2019t suck \u2014 fast, themeable, embeddable.', cta: 'Get notified',
+        detail: { tagline: 'Status pages that load instantly and look like part of your product.', problem: 'Status pages are slow, ugly, and live on someone else\u2019s subdomain. When you\u2019re down, the last thing you want is a clunky page.', build: ['Edge-rendered pages that load in <100ms', 'Fully themeable + embeddable widget', 'Auto-incident detection from your monitors'], stack: ['TypeScript', 'Workers', 'React', 'Durable Objects'] } },
+    ];
+    const products = productData.map((p, i) => ({ ...p, ...statusStyle(p.status), ...iconTheme(i), onOpen: () => this.setState({ modalIndex: i }) }));
+    const labPreview = products.slice(0, 4).map((p) => ({
+      name: p.name, initial: p.initial, status: p.status, statusColor: p.statusColor, iconBg: p.iconBg, iconColor: p.iconColor,
+    }));
+
+    const clients = [
+      { name: 'Meridian Freight', sector: 'LOGISTICS', tag: 'Architecture', desc: 'Rebuilt the dispatch engine from a creaking monolith into an event-driven system.', metric: '4×', metricLabel: 'throughput', metric2: '−62%', metric2Label: 'latency' },
+      { name: 'Northwind Capital', sector: 'FINTECH', tag: 'Realtime', desc: 'A realtime trading dashboard streaming portfolio state at sub-100ms.', metric: '<100ms', metricLabel: 'tick-to-render', metric2: '99.99%', metric2Label: 'uptime' },
+      { name: 'Atlas Health', sector: 'HEALTHCARE', tag: 'Migration', desc: 'HIPAA-grade patient portal, migrated live with zero downtime over a weekend.', metric: '0', metricLabel: 'downtime', metric2: '1.2M', metric2Label: 'records moved' },
+      { name: 'Volt Mobility', sector: 'MOBILITY', tag: 'Scale', desc: 'EV charging network app scaled from prototype to a national rollout.', metric: '200k', metricLabel: 'monthly actives', metric2: '38', metric2Label: 'states live' },
+    ];
+
+    const plans = [
+      { name: 'Scout', tagline: 'Part-time senior firepower', price: '$8.5k', period: '/ month',
+        features: ['One senior engineer', '~20 hrs / week', 'Async updates + weekly call', 'Pause or cancel anytime'], popular: false },
+      { name: 'Pack', tagline: 'Your core build team', price: '$18k', period: '/ month',
+        features: ['Two senior engineers', 'Full-stack + infra', 'Priority Slack + velocity calls', 'Pause or scale monthly'], popular: true },
+      { name: 'Alpha', tagline: 'Dedicated squad', price: 'Custom', period: '',
+        features: ['Full squad + architecture lead', 'Dedicated roadmap ownership', 'On-call & SLA options', 'Quarterly strategy reviews'], popular: false },
+    ].map((p) => ({
+      ...p,
+      cardStyle: {
+        position: 'relative', display: 'flex', flexDirection: 'column',
+        border: p.popular ? '1px solid #C6FF3A' : '1px solid rgba(255,255,255,.08)',
+        borderRadius: '22px', background: p.popular ? '#141414' : '#121212',
+        padding: '34px', boxShadow: p.popular ? '0 0 60px rgba(198,255,58,.14)' : 'none',
+      },
+      ctaStyle: {
+        marginTop: '26px', width: '100%', cursor: 'pointer', borderRadius: '12px',
+        fontFamily: "'Geist Mono',monospace", fontWeight: 500, fontSize: '14px', padding: '15px',
+        border: p.popular ? 'none' : '1px solid rgba(255,255,255,.15)',
+        background: p.popular ? '#C6FF3A' : 'transparent',
+        color: p.popular ? '#0A0A0A' : '#fff',
+        transition: 'transform .18s, box-shadow .18s, background .2s',
+      },
+      priceColor: p.popular ? '#C6FF3A' : '#fff',
+    }));
+
+    const howItWorks = [
+      { num: '01', title: 'Send the brief', body: 'Tell us your idea or roadmap. We reply within 24 hours \u2014 no sales funnel.' },
+      { num: '02', title: 'Reserve a slot', body: 'We lock in your pack slot and kick off in days, not weeks.' },
+      { num: '03', title: 'Ship weekly', body: 'Production drops every week. Pause or scale your slot month to month.' },
+    ];
+
+    const team = [
+      { initial: 'M', name: 'Marco Vidal', role: 'Founder \u00b7 Principal Eng', accent: true },
+      { initial: 'L', name: 'Lena Okafor', role: 'Staff Full-Stack', accent: false },
+      { initial: 'D', name: 'Dane Park', role: 'Infra & Platform', accent: false },
+      { initial: 'S', name: 'Sofia Cruz', role: 'Design Engineer', accent: false },
+    ].map((m) => ({
+      ...m,
+      avatarRing: m.accent ? '2px solid #C6FF3A' : '1px solid rgba(255,255,255,.12)',
+      avatarColor: m.accent ? '#C6FF3A' : '#fff',
+    }));
+
+    const testimonials = [
+      { quote: 'Blakie shipped in six weeks what our last vendor couldn\u2019t in a year \u2014 and the code is immaculate.', name: 'VP Engineering', org: 'Meridian Freight' },
+      { quote: 'They treated our product like their own. Zero hand-holding, all signal, every single week.', name: 'CTO', org: 'Northwind Capital' },
+    ];
+
+    const clientLogos = ['Meridian', 'Northwind', 'Atlas Health', 'Volt', 'Halcyon', 'Driftwell'];
+
+    const faqs = [
+      { q: 'Can I pause my retainer?', a: 'Yes. Pause or scale your slot month to month \u2014 no lock-in, no penalty. We hold your slot for 30 days when paused.' },
+      { q: 'Who owns the code?', a: 'You do, 100%. Everything we write lives in your repos and is yours from day one.' },
+      { q: 'How fast can we start?', a: 'Days, not weeks. Once a slot is reserved we kick off with a roadmap call and ship inside the first week.' },
+      { q: 'I only need a one-off build.', a: 'Pick \u201cCustom Architecture\u201d on the intake form and we\u2019ll scope a fixed engagement instead of a monthly retainer.' },
+      { q: 'Do you sign NDAs?', a: 'Always \u2014 before the first real conversation if you need it.' },
+    ].map((f, i) => {
+      const open = s.openFaq === i;
+      return {
+        ...f, open, sign: open ? '\u2013' : '+',
+        onToggle: () => this.setState((st) => ({ openFaq: st.openFaq === i ? null : i })),
+        maxH: open ? '260px' : '0px', op: open ? '1' : '0', mt: open ? '12px' : '0px',
+      };
+    });
+
+    const modalProduct = s.modalIndex != null ? products[s.modalIndex] : null;
+
+    const typeData = [
+      { id: 'retainer', label: 'Monthly Retainer Partnership', num: '[01]' },
+      { id: 'architecture', label: 'Custom Architecture', num: '[02]' },
+      { id: 'hi', label: 'Just Saying Hi', num: '[03]' },
+    ];
+    const typeOptions = typeData.map((t) => {
+      const active = s.formType === t.id;
+      return {
+        ...t,
+        onSelect: () => this.setState({ formType: t.id }),
+        borderColor: active ? '#C6FF3A' : 'rgba(255,255,255,.1)',
+        bg: active ? 'rgba(198,255,58,.07)' : '#111',
+        dotBorder: active ? '4px solid #C6FF3A' : '1px solid rgba(255,255,255,.25)',
+        dotBg: active ? '#0A0A0A' : 'transparent',
+        dotShadow: active ? '0 0 12px rgba(198,255,58,.6)' : 'none',
+      };
+    });
+
+    const submitStyle = {
+      width: '100%', cursor: s.submitting ? 'default' : 'pointer', border: 'none',
+      fontFamily: "'Geist Mono',monospace", fontWeight: 500, fontSize: '15px', color: '#0A0A0A',
+      padding: '18px', borderRadius: '13px',
+      background: s.submitting ? 'rgba(198,255,58,.7)' : '#C6FF3A',
+      transition: 'transform .18s, box-shadow .18s, background .2s',
+      boxShadow: s.submitting ? 'none' : '0 8px 30px rgba(198,255,58,.25)',
+    };
+
+    return {
+      isHome: s.view === 'home', isWork: s.view === 'work', isAbout: s.view === 'about', isContact: s.view === 'contact',
+      goHome: () => this.nav('home'),
+      logoTap: () => { this.pawWalk({ startX: 64, startY: 52, dx: 98, dy: -7, count: 7, size: 24, color: '#C6FF3A' }); this.nav('home'); },
+      px: m ? '20px' : '40px',
+      colsHero: m ? '1fr' : '1.15fr .85fr',
+      cols2: m ? '1fr' : '1fr 1fr',
+      cols3: m ? '1fr' : (t ? '1fr 1fr' : 'repeat(3,1fr)'),
+      cols4: m ? 'repeat(2,1fr)' : (t ? 'repeat(2,1fr)' : 'repeat(4,1fr)'),
+      colsOrigin: m ? '1fr' : 'auto 1fr',
+      navLinksDisplay: m ? 'none' : 'flex',
+      navBurgerDisplay: m ? 'flex' : 'none',
+      menuOpen: s.menuOpen,
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      goWork: () => this.nav('work'),
+      goAbout: () => this.nav('about'),
+      goContact: () => this.nav('contact'),
+      goProducts: () => { this.setState({ tab: 'products' }); this.nav('work'); },
+      goPlans: () => this.nav('plans'),
+      hireRetainer: () => { this.setState({ formType: 'retainer' }); this.nav('contact'); },
+      isPlans: s.view === 'plans', slotsOpen: '2 slots open \u00b7 Q3 2026',
+      plans, howItWorks, team, testimonials, clientLogos, faqs,
+      modalOpen: s.modalIndex != null, modalProduct,
+      closeModal: () => this.setState({ modalIndex: null }),
+      stop: (e) => e.stopPropagation(),
+      subEmail: s.subEmail, subscribed: s.subscribed, notSubscribed: !s.subscribed,
+      onSubEmail: (e) => this.setState({ subEmail: e.target.value }),
+      onSubscribe: (e) => { e.preventDefault(); if (s.subscribed) return; this.setState({ subscribed: true }); },
+      workColor: navColor('work'), aboutColor: navColor('about'), contactColor: navColor('contact'), plansColor: navColor('plans'),
+
+      agencyPoints: ['Senior-only engineering pack', 'Full-stack architecture & infra', 'Rapid MVPs in weeks, not quarters', 'Pause or scale your slot monthly'],
+      labPreview, products, clients,
+      stats: [
+        { num: '6', label: 'PRODUCTS SHIPPED' },
+        { num: '12+', label: 'CLIENT SYSTEMS' },
+        { num: '24h', label: 'BRIEF RESPONSE' },
+        { num: '100%', label: 'SENIOR ENGINEERS' },
+      ],
+      ethos: [
+        { num: 'A1', title: 'Extreme quality', body: 'We sweat the edge cases nobody sees until they break in production.' },
+        { num: 'A2', title: 'Ruthless agility', body: 'Small pack, no bureaucracy. We move at the speed of a decision.' },
+        { num: 'A3', title: 'Out of comfort', body: 'We pick the hard architecture when it earns its keep over five years.' },
+      ],
+
+      isClientTab: s.tab === 'clients', isProductTab: s.tab === 'products',
+      showClients: () => this.setState({ tab: 'clients' }),
+      showProducts: () => this.setState({ tab: 'products' }),
+      clientTabBg: s.tab === 'clients' ? '#C6FF3A' : 'transparent',
+      clientTabColor: s.tab === 'clients' ? '#0A0A0A' : muted,
+      productTabBg: s.tab === 'products' ? '#C6FF3A' : 'transparent',
+      productTabColor: s.tab === 'products' ? '#0A0A0A' : muted,
+
+      typeOptions,
+      fName: s.name, fCompany: s.company, fEmail: s.email, fBrief: s.brief,
+      onName: (e) => this.setState({ name: e.target.value }),
+      onCompany: (e) => this.setState({ company: e.target.value }),
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onBrief: (e) => this.setState({ brief: e.target.value }),
+      submitting: s.submitting, submitted: s.submitted,
+      notSubmitted: !s.submitted, btnIdle: !s.submitting,
+      submitStyle,
+      onSubmit: (e) => {
+        e.preventDefault();
+        if (s.submitting || s.submitted) return;
+        this.setState({ submitting: true });
+        setTimeout(() => this.setState({ submitting: false, submitted: true }), 1500);
+      },
+      resetForm: () => this.setState({ submitted: false, name: '', company: '', email: '', brief: '', formType: 'retainer' }),
+    };
+  }
+}
+</script>
+</body>
+</html>

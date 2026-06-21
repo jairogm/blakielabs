@@ -1,0 +1,11 @@
+---
+const { href = "/", small = false, showMark = true } = Astro.props;
+const size = small ? 24 : 34;
+---
+
+<a class="brand" href={href} data-logo-link={!small ? true : undefined}>
+  {showMark && (
+    <img class="brand__mark" src="/blakie-origin.png" alt="" width={size} decoding="async" />
+  )}
+  <span class="brand__text">Blakie<span>.</span>Labs</span>
+</a>

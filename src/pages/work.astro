@@ -1,0 +1,58 @@
+---
+import Layout from "../components/Layout.astro";
+import ProductModal from "../components/ProductModal.astro";
+import { clients, products } from "../data/site";
+---
+
+<Layout
+  active="work"
+  title="Work | Blakie Labs"
+  description="Explore Blakie Labs client systems and product work, from event-driven platforms to privacy-first apps and realtime dashboards."
+  canonicalPath="/work/"
+>
+  <section class="section work page-section" aria-labelledby="work-title">
+    <p class="section-kicker">// PORTFOLIO AND PRODUCTS</p>
+    <h1 class="page-heading" id="work-title">The Work.</h1>
+
+    <div class="tabs" role="tablist" aria-label="Work views">
+      <button class="tabs__button is-active" type="button" role="tab" aria-selected="true" aria-controls="clients-panel" id="clients-tab" data-tab-target="clients">Client Systems</button>
+      <button class="tabs__button" type="button" role="tab" aria-selected="false" aria-controls="products-panel" id="products-tab" data-tab-target="products">Our Products</button>
+    </div>
+
+    <div class="work__panel is-active" id="clients-panel" role="tabpanel" aria-labelledby="clients-tab" data-tab-panel="clients">
+      <div class="case-grid">
+        {clients.map((client) => (
+          <article class="case-card">
+            <div class="case-card__top">
+              <span>{client.sector}</span>
+              <strong>{client.tag}</strong>
+            </div>
+            <h2>{client.name}</h2>
+            <p>{client.desc}</p>
+            <div class="case-card__metrics">
+              <span><strong>{client.metric}</strong>{client.metricLabel}</span>
+              <span><strong>{client.metric2}</strong>{client.metric2Label}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="work__panel" id="products-panel" role="tabpanel" aria-labelledby="products-tab" data-tab-panel="products" hidden>
+      <div class="product-grid" id="products">
+        {products.map((product) => (
+          <article class="product-card">
+            <div class="product-card__top">
+              <span class={`app-icon app-icon--${product.iconClass}`}>{product.initial}</span>
+              <small class={`status status--${product.statusClass}`}>{product.status}</small>
+            </div>
+            <h2>{product.name}</h2>
+            <p>{product.desc}</p>
+            <button class="text-link product-card__button" type="button" data-product-open={product.slug}>View case study</button>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <ProductModal products={products} slot="overlays" />
+</Layout>

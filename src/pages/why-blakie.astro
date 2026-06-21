@@ -1,0 +1,122 @@
+---
+import Layout from "../components/Layout.astro";
+
+const moments = [
+  {
+    label: "01",
+    title: "The day everything changed",
+    caption: "A placeholder for the first photo of Blakie after she was rescued and brought into safety.",
+    sticker: "/stikers/blakie-code-tag.svg"
+  },
+  {
+    label: "02",
+    title: "Meeting Luna and Tom",
+    caption: "A placeholder for the first family photo: Blakie, Luna, and Tom figuring each other out.",
+    sticker: "/stikers/geometric-paw-green.svg"
+  },
+  {
+    label: "03",
+    title: "The inseparable trio",
+    caption: "A placeholder for the three of them playing, eating, or sleeping together like they always do.",
+    sticker: "/stikers/blakie-setting.svg"
+  }
+];
+
+const pets = [
+  { name: "Blakie", role: "The rescued one", note: "The namesake of the lab: loyal, alert, and impossible to ignore." },
+  { name: "Luna", role: "The companion", note: "The dog who helped turn rescue into routine, play, and belonging." },
+  { name: "Tom", role: "The cat", note: "Proof that the pack was never about species. It was about family." }
+];
+---
+
+<Layout
+  active="about"
+  title="Why Blakie? | Blakie Labs"
+  description="The story behind the Blakie Labs name: a rescued dog, a founder who brought her home, and the family that shaped the brand."
+  canonicalPath="/why-blakie/"
+>
+  <section class="section story page-section" aria-labelledby="story-title">
+    <a class="story__back text-link" href="/about/">Back to about</a>
+
+    <div class="story-hero">
+      <div class="story-hero__copy">
+        <p class="section-kicker">// ORIGIN STORY</p>
+        <h1 class="page-heading page-heading--narrow" id="story-title">Why Blakie?</h1>
+        <p>Blakie Labs is named after Blakie, a dog rescued and adopted by founder Jhon Garces Montes after he found that a neighbor had been keeping her in bad condition.</p>
+        <p>He brought her home to the family, alongside Luna, another dog, and Tom, the cat. Since then, the three have been inseparable: playing together, eating together, and sleeping close like they had always belonged to the same pack.</p>
+      </div>
+    </div>
+
+    <div class="story-grid">
+      <article class="story-copy">
+        <span>[ RESCUE - FAMILY - LOYALTY ]</span>
+        <h2>A name with teeth, heart, and memory.</h2>
+        <p>The brand carries that story because the work we want to do has the same shape: protect what matters, move with urgency, and stay loyal to the people who trust us with important things.</p>
+        <p>Blakie is not just a mascot. She is a reminder that good systems, like good homes, are built through care, consistency, and the decision to take responsibility when something needs help.</p>
+      </article>
+
+      <aside class="story-sticker-wall" aria-label="Blakie Labs sticker wall">
+        <img src="/stikers/blakie-gears.svg" alt="Blakie gears sticker" />
+        <img src="/stikers/blakie-setting.svg" alt="Blakie settings sticker" />
+        <img src="/stikers/geometric-paw.svg" alt="Black paw sticker" />
+      </aside>
+    </div>
+
+    <section class="story-slider" aria-labelledby="story-gallery-title" data-story-slider>
+      <div class="section-heading">
+        <h2 id="story-gallery-title">Family album placeholders.</h2>
+        <p>[ ADD REAL PHOTOS LATER ]</p>
+      </div>
+
+      <div class="story-slider__viewport">
+        <div class="story-slider__track" data-story-track>
+          {moments.map((moment, index) => (
+            <article class:list={["story-slider__slide", { "is-active": index === 0 }]} data-story-slide aria-hidden={index === 0 ? "false" : "true"}>
+              <div class="story-photo">
+                <img src={moment.sticker} alt="" aria-hidden="true" />
+                <span>IMAGE PLACEHOLDER</span>
+              </div>
+              <div class="story-slider__copy">
+                <span>{moment.label}</span>
+                <h3>{moment.title}</h3>
+                <p>{moment.caption}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="story-slider__controls">
+        <button class="story-slider__button" type="button" aria-label="Previous story image" data-story-prev>←</button>
+        <div class="story-slider__dots" aria-label="Story image controls">
+          {moments.map((moment, index) => (
+            <button
+              class:list={["story-slider__dot", { "is-active": index === 0 }]}
+              type="button"
+              aria-label={`Show ${moment.title}`}
+              aria-current={index === 0 ? "true" : undefined}
+              data-story-dot={index}
+            ></button>
+          ))}
+        </div>
+        <button class="story-slider__button" type="button" aria-label="Next story image" data-story-next>→</button>
+      </div>
+    </section>
+
+    <div class="story-pack" aria-label="The Blakie family pack">
+      {pets.map((pet) => (
+        <article class="story-pack__card">
+          <span>{pet.role}</span>
+          <h2>{pet.name}</h2>
+          <p>{pet.note}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="story-closing">
+      <img src="/stikers/buil-with-teeth-4.svg" alt="" aria-hidden="true" />
+      <p>That is the spirit behind the name: a small pack, fiercely loyal, building things with care and bite.</p>
+      <a class="button button--primary button--small" href="/contact/">Send us a brief →</a>
+    </div>
+  </section>
+</Layout>

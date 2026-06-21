@@ -1,0 +1,101 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Footer from "./Footer.astro";
+import Nav from "./Nav.astro";
+import Newsletter from "./Newsletter.astro";
+import SiteScripts from "./SiteScripts.astro";
+
+const {
+  active = "home",
+  title = "Blakie Labs | Senior Software Studio and Product Lab",
+  description = "Blakie Labs is a dual-engine digital studio building high-performance client software and proprietary digital products.",
+  newsletter = true,
+  canonicalPath,
+  ogImage = "/og-image.png",
+  ogImageAlt = "Blakie Labs, a senior software studio and product lab.",
+  ogType = "website",
+  noindex = false
+} = Astro.props;
+
+const siteRoot = new URL("/", Astro.site ?? "https://blakielabs.com");
+const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, siteRoot).toString();
+const ogImageUrl = new URL(ogImage, siteRoot).toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteRoot.toString()}#organization`,
+      name: "Blakie Labs",
+      url: siteRoot.toString(),
+      logo: new URL("/paw.svg", siteRoot).toString()
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteRoot.toString()}#website`,
+      name: "Blakie Labs",
+      url: siteRoot.toString(),
+      publisher: { "@id": `${siteRoot.toString()}#organization` }
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      name: title,
+      description,
+      url: canonicalUrl,
+      isPartOf: { "@id": `${siteRoot.toString()}#website` }
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Blakie Labs" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <meta name="theme-color" content="#0A0A0A" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <div class="site" data-site>
+      <div class="site__grid" aria-hidden="true" transition:name="site-grid" transition:persist></div>
+      <div class="site__glow" aria-hidden="true" data-glow transition:name="site-glow" transition:persist></div>
+      <div class="site__paw-field" aria-hidden="true" data-paw-field transition:name="site-paws" transition:persist></div>
+      <Nav active={active} />
+      <main>
+        <slot />
+      </main>
+      {newsletter && <Newsletter />}
+      <Footer />
+    </div>
+    <slot name="overlays" />
+    <SiteScripts />
+  </body>
+</html>
